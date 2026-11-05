@@ -1,0 +1,10 @@
+#ifndef INIMIGO_H
+#define INIMIGO_H
+#include "Personagem.h"
+
+class Inimigo : public Personagem { //Declara a classe Inimigo que herda de Personagem
+public:
+    Inimigo(const sf::Vector2f& posicao, const sf::Color& cor); //Declara o construtor da classe, que recebe a posição inicial e a cor do inimigo
+    void executar(float deltaTime) override; //Declara a função virtual executar para atualizar a lógica do inimigo a cada frame com base no tempo decorrido
+};
+#endif

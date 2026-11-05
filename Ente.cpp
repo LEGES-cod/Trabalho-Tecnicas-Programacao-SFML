@@ -1,15 +1,2 @@
 #include "Ente.h"
-
-GerenciadorGrafico* Ente::pGG = nullptr;
-
-Ente::Ente(){
-    id = 0;
-}
-Ente::~Ente(){
-}
-
-void Ente::setGerenciadorGrafico(GerenciadorGrafico* pGrafico)
-{
-    pGG = pGrafico;
-}
-
+// Ente é uma classe abstrata; suas funções são implementadas pelas classes derivadas.

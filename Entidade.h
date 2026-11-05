@@ -1,19 +1,17 @@
 #ifndef ENTIDADE_H
 #define ENTIDADE_H
-
 #include "Ente.h"
 
-class Entidade : public Ente {
+class Entidade : public Ente { //Declara a classe Entidade que herda de Ente.
 protected:
-    float x;
-    float y;
-
+    sf::RectangleShape corpo; //Declara um retângulo da SFML
 public:
-    Entidade();
-    virtual ~Entidade();
-
-    virtual void executar() = 0;
-    virtual void salvar();
+    Entidade(const sf::Vector2f& posicao, const sf::Vector2f& tamanho,
+             const sf::Color& cor); //Construtor que inicializaa a entidade aceitando posição, tamanho e cor (RGB).
+    virtual ~Entidade() = default; //Destrutor virtual padrão
+    sf::FloatRect getLimites() const; //Retorna os limites espaciais globais do retângulo (para detecção de colisoes.
+    sf::Vector2f getPosicao() const; //Retorna a posição atual da entidade
+    void setPosicao(const sf::Vector2f& posicao); //Altera a posição da Entidade
+    void desenhar(sf::RenderWindow& janela) override; //Sobrescreve o método de desenho da classe Ente para desenhar o retângulo
 };
-
 #endif
