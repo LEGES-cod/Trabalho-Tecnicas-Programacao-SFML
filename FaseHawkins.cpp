@@ -6,14 +6,14 @@
 FaseHawkins::FaseHawkins() : Fase("hawkins.png") {
 
     chao.setFillColor(sf::Color(40, 50, 35)); // Tom esverdeado/asfalto escuro
-    carregar(); } //Construtor que invoca automaticamento o método carregar() para instanciar os elementos na crianção
+    carregar(); } //Construtor que invoca automaticamento o mï¿½todo carregar() para instanciar os elementos na crianï¿½ï¿½o
 
 
 
 
 
 
-void FaseHawkins::carregar() { //Implementa o carregamento criando dinamicamente instãncias através de std::make_unique e posicionando elas nas coordenadas verticais indicadas
+void FaseHawkins::carregar() { //Implementa o carregamento criando dinamicamente instï¿½ncias atravï¿½s de std::make_unique e posicionando elas nas coordenadas verticais indicadas
     //adicionarInimigo(std::make_unique<Demogorgon>(sf::Vector2f(350.f, 500.f)));
     adicionarInimigo(std::make_unique<Demodog>(sf::Vector2f(500.f, 500.f)));
     adicionarObstaculo(std::make_unique<TroncoCaido>(sf::Vector2f(100.f, 510.f)));

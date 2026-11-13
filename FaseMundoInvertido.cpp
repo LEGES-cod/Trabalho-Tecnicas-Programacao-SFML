@@ -10,7 +10,7 @@ FaseMundoInvertido::FaseMundoInvertido() : Fase("mundo_invertido.png") {
 
 
 
-void FaseMundoInvertido::carregar() { //Adiciona os inimigos e o obstáculo em posições específicas
+void FaseMundoInvertido::carregar() { //Adiciona os inimigos e o obstï¿½culo em posiï¿½ï¿½es especï¿½ficas
     adicionarInimigo(std::make_unique<Demodog>(sf::Vector2f(320.f, 500.f)));
     adicionarInimigo(std::make_unique<Vecna>(sf::Vector2f(620.f, 500.f)));
     adicionarObstaculo(std::make_unique<EspinhosTentaculo>(sf::Vector2f(470.f, 510.f)));

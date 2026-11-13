@@ -1,7 +1,7 @@
 #include "Demodog.h"
 #include <cmath> // Para std::abs(calcular distancia)
-Demodog::Demodog(const sf::Vector2f& posicao) //Inicia o construtor da classe Demodog, aceitando a posição inicial
-    : Inimigo(posicao, sf::Color(80, 40, 20)),//Marrom escuro //Chama o construtor da classe Inimigo, passando a posição e um cor (RGB)
+Demodog::Demodog(const sf::Vector2f& posicao) //Inicia o construtor da classe Demodog, aceitando a posiï¿½ï¿½o inicial
+    : Inimigo(posicao, sf::Color(80, 40, 20)),//Marrom escuro //Chama o construtor da classe Inimigo, passando a posiï¿½ï¿½o e um cor (RGB)
       limiteEsquerdo(posicao.x - 100.f),//Patrulha 100 pixel a esquerda
       limiteDireito(posicao.x + 100.f),//Patrulha 100 pixel a direita
       indoDireita(true),
@@ -21,7 +21,7 @@ Demodog::Demodog(const sf::Vector2f& posicao) //Inicia o construtor da classe De
          float distanciax = posJogador.x - posAtual.x;
 
 
-         if(std::abs(distanciax)<= raioVisao)//ataque/perseguição
+         if(std::abs(distanciax)<= raioVisao)//ataque/perseguiï¿½ï¿½o
          {
              if(distanciax > 0.f)
              {

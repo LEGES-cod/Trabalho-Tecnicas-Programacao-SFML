@@ -5,4 +5,4 @@ Demogorgon::Demogorgon(const sf::Vector2f& posicao) //Implementa o construtor da
         dano = 10;
     }
 
-    //Chama o construtor da classe Inimigo, e passa a posição e a cor (RGB)
+    //Chama o construtor da classe Inimigo, e passa a posiï¿½ï¿½o e a cor (RGB)

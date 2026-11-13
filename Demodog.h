@@ -9,7 +9,7 @@ private:
     float raioVisao;
     float velocidadeAtaque;
 public:
-    explicit Demodog(const sf::Vector2f& posicao); //Declara o construtor de classe que recebe uma posição bidimensional por referÊncia constante
+    explicit Demodog(const sf::Vector2f& posicao); //Declara o construtor de classe que recebe uma posiï¿½ï¿½o bidimensional por referï¿½ncia constante
     void executar(float deltaTime, const sf::Vector2f& posJogador) override;
     virtual void inverterDirecao()override;
 };

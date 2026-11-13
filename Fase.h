@@ -12,23 +12,23 @@
 
 class Fase {
 protected:
-    std::vector<std::unique_ptr<Ente>> objetos; //Vetor que armazena a posse de todos os entes genéricos da fase.
+    std::vector<std::unique_ptr<Ente>> objetos; //Vetor que armazena a posse de todos os entes genï¿½ricos da fase.
     std::vector<Inimigo*> inimigos; //Vetor de ponteiros que aponta para inimigos criados.
-    std::vector<Obstaculo*> obstaculos; //Vetor de ponteiros que referencia os obstáculos da fase
+    std::vector<Obstaculo*> obstaculos; //Vetor de ponteiros que referencia os obstï¿½culos da fase
     std::unique_ptr<Jogador> jogador; //POnteiro que guarda o jogador pincipal da fase
-    bool concluida; //Variável que indica se a fase terminou (vitória ou derrota)
+    bool concluida; //Variï¿½vel que indica se a fase terminou (vitï¿½ria ou derrota)
 
     sf::Texture texturaFundo;
     sf::Sprite spriteFundo;
     sf::RectangleShape chao;
 
     void adicionarInimigo(std::unique_ptr<Inimigo> inimigo); //Para inserir inimigos nas listas internas das fases
-    void adicionarObstaculo(std::unique_ptr<Obstaculo> obstaculo); //Para inserir obstáculos nas listas internas das fases
+    void adicionarObstaculo(std::unique_ptr<Obstaculo> obstaculo); //Para inserir obstï¿½culos nas listas internas das fases
 public:
     Fase(const std::string& caminhoFundo); //Declara o construtor da fase(recebe o caminho da imagem)
     virtual ~Fase() = default; //Destrutor virtual padrao
-    virtual void carregar() = 0; //Método virtual puro que obriga as subclasses a implementarem a lógica de carregamento dos elementos específicos do nível.
-    void executar(float deltaTime, sf::RenderWindow& janela); //Responsável por atualizar a lógica da fase e desenhar os elementos a cada frame
-    bool terminou() const; //Retorna o estado atual da fase (se terminou ou não)
+    virtual void carregar() = 0; //Mï¿½todo virtual puro que obriga as subclasses a implementarem a lï¿½gica de carregamento dos elementos especï¿½ficos do nï¿½vel.
+    void executar(float deltaTime, sf::RenderWindow& janela); //Responsï¿½vel por atualizar a lï¿½gica da fase e desenhar os elementos a cada frame
+    bool terminou() const; //Retorna o estado atual da fase (se terminou ou nï¿½o)
 };
 #endif

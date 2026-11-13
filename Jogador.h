@@ -5,16 +5,16 @@
 class Jogador : public Personagem { //Declara a classe Jogador que herda de Personagem
 private:
     float velocidadeY;
-    bool noChao; //controlar o estado do pulo(pro jogador não voar)
+    bool noChao; //controlar o estado do pulo(pro jogador nï¿½o voar)
     const float GRAVIDADE = 980.f; //gravidade
     const float FORCA_PULO = -450.f; // forca do pulo
-    float tempoInvencivel; // tempo de proteçao apos o golpe
+    float tempoInvencivel; // tempo de proteï¿½ao apos o golpe
 
 public:
-    Jogador(); //Construtor padrão
-    void executar(float deltaTime) override; //Sobrescreve o método de atualização lógica para processar os controles do utilizador
+    Jogador(); //Construtor padrï¿½o
+    void executar(float deltaTime) override; //Sobrescreve o mï¿½todo de atualizaï¿½ï¿½o lï¿½gica para processar os controles do utilizador
     void limitarNaTela(); //Impede que o jogador saia dos limites da janela do jogo
-    void pular(); //executável do pulo
+    void pular(); //executï¿½vel do pulo
     void aterrar(float alturaY);
     float getVelocidadeY() const { return velocidadeY; }
     void receberDano(int dano);
