@@ -1,34 +1,37 @@
 #ifndef FASE_H
 #define FASE_H
-#include <memory>
-#include <vector>
+
 #include <string>
 #include <SFML/Graphics.hpp>
 #include "Ente.h"
+#include "ListaEntidades.h"
+#include "GerenciadorColisoes.h"
 #include "Jogador.h"
 #include "Inimigo.h"
 #include "Obstaculo.h"
-#include "GerenciadorColisoes.h"
 
-class Fase {
+class Fase : public Ente { // Fase herda publicamente de Ente conforme o diagrama UML
 protected:
-    std::vector<std::unique_ptr<Ente>> objetos; //Vetor que armazena a posse de todos os entes gen�ricos da fase.
-    std::vector<Inimigo*> inimigos; //Vetor de ponteiros que aponta para inimigos criados.
-    std::vector<Obstaculo*> obstaculos; //Vetor de ponteiros que referencia os obst�culos da fase
-    std::unique_ptr<Jogador> jogador; //POnteiro que guarda o jogador pincipal da fase
-    bool concluida; //Vari�vel que indica se a fase terminou (vit�ria ou derrota)
+    ListaEntidades LEnts;         // Lista encadeada própria que gerencia todas as entidades da fase
+    GerenciadorColisoes gColisoes;// Gerenciador de colisões da fase
+    Jogador* pJog1;               // Ponteiro para o jogador principal da fase
+    bool concluida;               // Variável que indica se a fase terminou (vitória ou derrota)
 
     sf::Texture texturaFundo;
     sf::Sprite spriteFundo;
     sf::RectangleShape chao;
 
-    void adicionarInimigo(std::unique_ptr<Inimigo> inimigo); //Para inserir inimigos nas listas internas das fases
-    void adicionarObstaculo(std::unique_ptr<Obstaculo> obstaculo); //Para inserir obst�culos nas listas internas das fases
+    void adicionarInimigo(Inimigo* inimigo);     // Para inserir inimigos na lista e no gerenciador de colisões
+    void adicionarObstaculo(Obstaculo* obstaculo); // Para inserir obstáculos na lista e no gerenciador de colisões
+    virtual void criarInimigos() = 0;            // Método virtual puro para criar os inimigos específicos de cada fase
+    virtual void criarObstaculos() = 0;          // Método virtual puro para criar os obstáculos específicos de cada fase
+
 public:
-    Fase(const std::string& caminhoFundo); //Declara o construtor da fase(recebe o caminho da imagem)
-    virtual ~Fase() = default; //Destrutor virtual padrao
-    virtual void carregar() = 0; //M�todo virtual puro que obriga as subclasses a implementarem a l�gica de carregamento dos elementos espec�ficos do n�vel.
-    void executar(float deltaTime, sf::RenderWindow& janela); //Respons�vel por atualizar a l�gica da fase e desenhar os elementos a cada frame
-    bool terminou() const; //Retorna o estado atual da fase (se terminou ou n�o)
+    Fase(const std::string& caminhoFundo); // Declara o construtor da fase (recebe o caminho da imagem)
+    virtual ~Fase();                       // Destrutor virtual
+    void inicializar();                    // Inicializa o jogador e chama os métodos de criação da fase
+    void executar() override;              // Responsável por atualizar a lógica da fase e colisões a cada frame
+    void desenhar() override;              // Desenha o cenário e as entidades da fase
+    bool terminou() const;                 // Retorna o estado atual da fase (se terminou ou não)
 };
 #endif

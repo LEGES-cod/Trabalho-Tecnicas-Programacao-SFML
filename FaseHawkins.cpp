@@ -4,18 +4,15 @@
 #include "TroncoCaido.h"
 
 FaseHawkins::FaseHawkins() : Fase("hawkins.png") {
-
     chao.setFillColor(sf::Color(40, 50, 35)); // Tom esverdeado/asfalto escuro
-    carregar(); } //Construtor que invoca automaticamento o m�todo carregar() para instanciar os elementos na crian��o
+    inicializar(); // Invoca o método inicializar() para instanciar os elementos
+}
 
+void FaseHawkins::criarInimigos() { // Instancia os inimigos de Hawkins
+    adicionarInimigo(new Demodog(sf::Vector2f(500.f, 500.f), pJog1));
+}
 
-
-
-
-
-void FaseHawkins::carregar() { //Implementa o carregamento criando dinamicamente inst�ncias atrav�s de std::make_unique e posicionando elas nas coordenadas verticais indicadas
-    //adicionarInimigo(std::make_unique<Demogorgon>(sf::Vector2f(350.f, 500.f)));
-    adicionarInimigo(std::make_unique<Demodog>(sf::Vector2f(500.f, 500.f)));
-    adicionarObstaculo(std::make_unique<TroncoCaido>(sf::Vector2f(100.f, 510.f)));
-    adicionarObstaculo(std::make_unique<TroncoCaido>(sf::Vector2f(600.f, 510.f)));
+void FaseHawkins::criarObstaculos() { // Instancia os obstáculos de Hawkins
+    adicionarObstaculo(new TroncoCaido(sf::Vector2f(100.f, 510.f)));
+    adicionarObstaculo(new TroncoCaido(sf::Vector2f(600.f, 510.f)));
 }
