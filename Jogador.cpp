@@ -1,3 +1,4 @@
+
 #include "Jogador.h"
 #include <iostream>
 
@@ -20,6 +21,8 @@ void Jogador::pular() {
 }
 
 void Jogador::executar() {
+    if (vidas <= 0) return;
+
     float deltaTime = pGG ? pGG->getDeltaTime() : 0.016f;
     float dx = 0.f;
 
@@ -41,12 +44,10 @@ void Jogador::executar() {
         direcao = 1.f;
     }
 
-    // Seta para cima: pular
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
         pular();
     }
 
-    // Espaço: disparar bola de fogo
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) &&
         tempoDisparo <= 0.f) {
         disparoSolicitado = true;
@@ -97,8 +98,13 @@ void Jogador::aterrar(float alturaY) {
 }
 
 void Jogador::receberDano(int dano) {
-    if (tempoInvencivel <= 0.f) {
+    if (tempoInvencivel <= 0.f && vidas > 0) {
         vidas -= dano;
+
+        if (vidas < 0) {
+            vidas = 0;
+        }
+
         tempoInvencivel = 1.0f;
 
         std::cout << "vidas atual: " << getVidas() << std::endl;

@@ -1,21 +1,35 @@
 #ifndef JOGO_H
 #define JOGO_H
 
+#include <SFML/Graphics.hpp>
 #include "GerenciadorGrafico.h"
 #include "Menu.h"
 #include "FaseHawkins.h"
 #include "FaseMundoInvertido.h"
 
-class Jogo { // Classe principal que gerencia o ciclo de vida e estados do jogo conforme o UML
+class Jogo {
 private:
     GerenciadorGrafico* pGG;
     Menu menu;
     Fase* faseAtual;
     bool segundaFase;
 
+    bool gameOver;
+    int opcaoGameOver;
+
+    sf::Font fonteGameOver;
+    sf::Text textoGameOver;
+    sf::Text textoVoltarMenu;
+    sf::Text textoSair;
+
+    sf::RectangleShape fundoGameOver;
+    sf::RectangleShape botaoVoltarMenu;
+    sf::RectangleShape botaoSair;
+
 public:
     Jogo();
     ~Jogo();
     void executar();
 };
+
 #endif

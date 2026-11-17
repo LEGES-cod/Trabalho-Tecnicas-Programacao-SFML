@@ -73,3 +73,16 @@ void Menu::desenhar() {
 
 bool Menu::estaAtivo() const { return ativo; }
 int Menu::getOpcaoSelecionada() const { return opcaoSelecionada; }
+
+void Menu::reiniciar(int opcao) {
+    opcaoSelecionada = opcao;
+    ativo = true;
+
+    botaoFase1.setFillColor(
+        opcaoSelecionada == 1 ? sf::Color::Red : sf::Color(80, 80, 80)
+    );
+
+    botaoFase2.setFillColor(
+        opcaoSelecionada == 2 ? sf::Color::Red : sf::Color(80, 80, 80)
+    );
+}

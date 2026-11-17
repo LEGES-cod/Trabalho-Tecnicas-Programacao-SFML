@@ -21,6 +21,7 @@ public:
     void desenhar() override;
     bool estaAtivo() const;
     int getOpcaoSelecionada() const;
+    void reiniciar(int opcao = 1);
 };
 #endif
 
