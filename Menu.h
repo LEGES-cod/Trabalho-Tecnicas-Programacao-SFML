@@ -6,9 +6,14 @@ class Menu : public Ente { // Declara a classe Menu que herda de Ente conforme o
 private:
     int opcaoSelecionada;
     bool ativo;
-    sf::RectangleShape fundoMenu;
+    sf::Texture texturaFundo;
+    sf::Sprite fundoMenu;
     sf::RectangleShape botaoFase1;
     sf::RectangleShape botaoFase2;
+
+    sf::Font fonte;
+    sf::Text textoFase1;
+    sf::Text textoFase2;
 
 public:
     Menu();
@@ -18,3 +23,4 @@ public:
     int getOpcaoSelecionada() const;
 };
 #endif
+

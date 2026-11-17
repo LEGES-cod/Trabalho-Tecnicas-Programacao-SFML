@@ -1,4 +1,5 @@
 #include "Fase.h"
+#include "Projetil.h"
 
 Fase::Fase(const std::string& caminhoFundo)
     : Ente(), pJog1(nullptr), concluida(false) { // Construtor da classe Fase. Inicializa concluida como falso
@@ -39,13 +40,35 @@ void Fase::adicionarObstaculo(Obstaculo* obstaculo) { // Faz o mesmo procediment
     }
 }
 
-void Fase::executar() { // Inicia o método de execução do loop da fase
+void Fase::executar() {
     desenhar();
+
     LEnts.percorrer();
+
+    // Cria uma bola de fogo quando o jogador solicita um disparo.
+    if (pJog1 && pJog1->consumirDisparo()) {
+        sf::Vector2f posicao = pJog1->getPosicao();
+
+        float direcao = pJog1->getDirecao();
+
+    Projetil* bolaFogo = new Projetil(
+        sf::Vector2f(
+            direcao > 0 ? posicao.x + 35.f : posicao.x - 16.f,
+            posicao.y + 10.f
+        ),
+        500.f * direcao,
+        1,
+        sf::Color(255, 100, 0)
+    );
+
+        LEnts.incluir(bolaFogo);
+        gColisoes.incluirProjetilJogador(bolaFogo);
+    }
+
     gColisoes.executar();
 
     if (pJog1 && pJog1->getPosicao().x > 750.f) {
-        concluida = true; // Se o jogador passar a coordenada X de 750 pixels, a fase é dada como concluída
+        concluida = true;
     }
 }
 

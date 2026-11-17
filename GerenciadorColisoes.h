@@ -10,29 +10,35 @@
 #include "Obstaculo.h"
 #include "Projetil.h"
 
-class GerenciadorColisoes { // Declara a classe conforme o diagrama UML
+class GerenciadorColisoes {
 private:
-    std::vector<Inimigo*> LIs;   // Vetor de ponteiros para inimigos
-    std::list<Obstaculo*> LOs;   // Lista de ponteiros para obstáculos
-    std::set<Projetil*> LPs;     // Conjunto de ponteiros para projéteis
-    Jogador* pJog1;              // Ponteiro para o jogador principal
+    std::vector<Inimigo*> LIs;
+    std::list<Obstaculo*> LOs;
 
-    const bool verificarColisao(Entidade* pe1, Entidade* pe2) const; // Verifica interseção entre duas entidades
-    void tratarColisoesJogsObstacs();   // Resolve colisões entre jogador e obstáculos
-    void tratarColisoesJogsInimgs();    // Resolve colisões entre jogador e inimigos
-    void tratarColisoesJogsProjeteis(); // Resolve colisões entre jogador e projéteis
-    void tratarColisoesInimgsObstacs(); // Resolve colisões entre inimigos e obstáculos
+    std::set<Projetil*> LPs;
+    std::set<Projetil*> projeteisJogador;
+
+    Jogador* pJog1;
+
+    const bool verificarColisao(Entidade* pe1, Entidade* pe2) const;
+
+    void tratarColisoesJogsObstacs();
+    void tratarColisoesJogsInimgs();
+    void tratarColisoesJogsProjeteis();
+    void tratarColisoesProjeteisInimgs();
+    void tratarColisoesInimgsObstacs();
 
 public:
     GerenciadorColisoes();
     ~GerenciadorColisoes();
 
-    void setJogador(Jogador* pJ);          // Define o ponteiro para o jogador
-    void incluirInimigo(Inimigo* pi);      // Inclui um inimigo no vetor
-    void incluirObstaculo(Obstaculo* po);  // Inclui um obstáculo na lista
-    void incluirProjetil(Projetil* pj);    // Inclui um projétil no conjunto
-    void limpar();                         // Limpa todos os contêineres
+    void setJogador(Jogador* pJ);
+    void incluirInimigo(Inimigo* pi);
+    void incluirObstaculo(Obstaculo* po);
+    void incluirProjetil(Projetil* pj);
+    void incluirProjetilJogador(Projetil* pj);
 
-    void executar(); // Executa todas as verificações e tratamentos de colisão
+    void limpar();
+    void executar();
 };
 #endif

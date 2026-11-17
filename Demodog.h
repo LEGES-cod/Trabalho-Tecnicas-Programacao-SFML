@@ -1,8 +1,9 @@
 #ifndef DEMODOG_H
 #define DEMODOG_H
+
 #include "Inimigo.h"
 
-class Demodog : public Inimigo { // Declara a classe que herda da classe Inimigo
+class Demodog : public Inimigo {
 private:
     float limiteEsquerdo;
     float limiteDireito;
@@ -10,9 +11,15 @@ private:
     float raioVisao;
     float velocidadeAtaque;
 
+    sf::Texture textura;
+    sf::Sprite sprite;
+
 public:
-    explicit Demodog(const sf::Vector2f& posicao, Jogador* pJogador = nullptr); // Declara o construtor de classe que recebe uma posição bidimensional por referência constante
+    explicit Demodog(const sf::Vector2f& posicao, Jogador* pJogador = nullptr);
+
     void executar() override;
+    void desenhar() override;
     void inverterDirecao() override;
 };
+
 #endif

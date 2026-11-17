@@ -1,11 +1,15 @@
 #include "Projetil.h"
 
-Projetil::Projetil(const sf::Vector2f& posicao, float velX, int danoProjetil)
-    : Entidade(posicao, sf::Vector2f(12.f, 12.f), sf::Color::Magenta),
-      velocidadeX(velX), dano(danoProjetil), ativo(true) {}
+Projetil::Projetil(const sf::Vector2f& posicao, float velX,
+                   int danoProjetil, const sf::Color& cor)
+    : Entidade(posicao, sf::Vector2f(16.f, 16.f), cor),
+      velocidadeX(velX),
+      dano(danoProjetil),
+      ativo(true) {}
 
 void Projetil::executar() {
     if (!ativo) return;
+
     float deltaTime = pGG ? pGG->getDeltaTime() : 0.016f;
     corpo.move(velocidadeX * deltaTime, 0.f);
 
@@ -14,6 +18,20 @@ void Projetil::executar() {
     }
 }
 
-int Projetil::getDano() const { return dano; }
-bool Projetil::getAtivo() const { return ativo; }
-void Projetil::desativar() { ativo = false; }
+int Projetil::getDano() const {
+    return dano;
+}
+
+bool Projetil::getAtivo() const {
+    return ativo;
+}
+
+void Projetil::desativar() {
+    ativo = false;
+}
+
+void Projetil::desenhar() {
+    if (ativo) {
+        Entidade::desenhar();
+    }
+}
