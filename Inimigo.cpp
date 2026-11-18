@@ -5,7 +5,8 @@ Inimigo::Inimigo(const sf::Vector2f& posicao, const sf::Color& cor,
     : Personagem(posicao, sf::Vector2f(35.f, 35.f), cor, 0.f, 20),
       dano(3),
       pJog(pJogador),
-      vivo(true) {}
+      vivo(true)
+       {}
 
 void Inimigo::executar() {}
 

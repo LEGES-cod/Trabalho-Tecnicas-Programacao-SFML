@@ -88,6 +88,11 @@ void GerenciadorColisoes::tratarColisoesProjeteisInimgs() {
             if (verificarColisao(projetil, inimigo)) {
                 inimigo->receberDano(projetil->getDano());
                 projetil->desativar();
+
+                if(!inimigo->estaVivo() &&pJog1)
+                {
+                    pJog1->adicionarPontos(inimigo->getPontos());
+                }
                 break;
             }
         }

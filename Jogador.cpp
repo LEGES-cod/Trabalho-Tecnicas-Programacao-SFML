@@ -113,6 +113,8 @@ void Jogador::receberDano(int dano) {
 
 void Jogador::adicionarPontos(int p) {
     pontos += p;
+
+    std::cout << "total de pontos: " << getPontos() << std::endl;
 }
 
 int Jogador::getPontos() const {
