@@ -1,6 +1,6 @@
 #include "PlataformaEstatica.h"
 
-PlataformaEstatica::PlataformaEstatica(const sf::Vector2f& posicao, // Implementa o construtor da classe passando a posição e o tamanho recebidos, e definindo uma cor.
+PlataformaEstatica::PlataformaEstatica(const sf::Vector2f& posicao, // Implementa o construtor da classe passando a posiï¿½ï¿½o e o tamanho recebidos, e definindo uma cor.
                                        const sf::Vector2f& tamanho)
     : Obstaculo(posicao, tamanho, sf::Color(100, 100, 100), false) {}
 

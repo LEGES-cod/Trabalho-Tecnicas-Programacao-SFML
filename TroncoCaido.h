@@ -4,7 +4,7 @@
 
 class TroncoCaido : public Obstaculo { // Declara a classe TroncoCaido que herda de Obstaculo.
 public:
-    explicit TroncoCaido(const sf::Vector2f& posicao); // Declara o construtor explícito que recebe apenas a posição vetorial onde o tronco será colocado no cenário.
-    void obstacular(Jogador* pJog) override; // Trata a colisão com o tronco (aterrissagem e bloqueio lateral)
+    explicit TroncoCaido(const sf::Vector2f& posicao); // Declara o construtor explï¿½cito que recebe apenas a posiï¿½ï¿½o vetorial onde o tronco serï¿½ colocado no cenï¿½rio.
+    void obstacular(Jogador* pJog) override; // Trata a colisï¿½o com o tronco (aterrissagem e bloqueio lateral)
 };
 #endif

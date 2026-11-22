@@ -1,7 +1,7 @@
 #include "Obstaculo.h"
 
-Obstaculo::Obstaculo(const sf::Vector2f& posicao, const sf::Vector2f& tamanho, // Implementa o construtor, delegando os parâmetros de construção diretamente para a classe base Entidade.
+Obstaculo::Obstaculo(const sf::Vector2f& posicao, const sf::Vector2f& tamanho, // Implementa o construtor, delegando os parï¿½metros de construï¿½ï¿½o diretamente para a classe base Entidade.
                      const sf::Color& cor, bool ehDanoso)
     : Entidade(posicao, tamanho, cor), danoso(ehDanoso) {}
 
-void Obstaculo::executar() {} // Implementa o método executar de forma vazia, uma vez que os obstáculos são estáticos nesta versão.
+void Obstaculo::executar() {} // Implementa o mï¿½todo executar de forma vazia, uma vez que os obstï¿½culos sï¿½o estï¿½ticos nesta versï¿½o.

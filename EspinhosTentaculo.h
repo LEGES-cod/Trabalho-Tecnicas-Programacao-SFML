@@ -7,7 +7,7 @@ private:
     int danoEspinhos;
 
 public:
-    explicit EspinhosTentaculo(const sf::Vector2f& posicao); // Declara o construtor que recebe a posição onde o obstáculo será colocado
+    explicit EspinhosTentaculo(const sf::Vector2f& posicao); // Declara o construtor que recebe a posiï¿½ï¿½o onde o obstï¿½culo serï¿½ colocado
     void obstacular(Jogador* pJog) override; // Aplica dano ao jogador ao tocar nos espinhos
 };
 #endif

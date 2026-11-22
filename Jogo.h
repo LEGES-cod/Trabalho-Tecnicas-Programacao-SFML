@@ -19,11 +19,11 @@ private:
 
     sf::Font fonteGameOver;
     sf::Text textoGameOver;
-    sf::Text textoVoltarMenu;
+    sf::Text textoTentarNovamente;
     sf::Text textoSair;
 
     sf::RectangleShape fundoGameOver;
-    sf::RectangleShape botaoVoltarMenu;
+    sf::RectangleShape botaoTentarNovamente;
     sf::RectangleShape botaoSair;
 
 public:

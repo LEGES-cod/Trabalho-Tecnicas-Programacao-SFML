@@ -8,21 +8,24 @@
 #include "Jogador.h"
 #include "Inimigo.h"
 #include "Obstaculo.h"
-#include "Projetil.h"
+#include "Chao.h"
+#include "BolaDeFogo.h"
 
 class GerenciadorColisoes {
 private:
     std::vector<Inimigo*> LIs;
     std::list<Obstaculo*> LOs;
+    std::list<Chao*> LCs;
 
-    std::set<Projetil*> LPs;
-    std::set<Projetil*> projeteisJogador;
+    std::set<BolaDeFogo*> LPs;
+    std::set<BolaDeFogo*> projeteisJogador;
 
     Jogador* pJog1;
 
     const bool verificarColisao(Entidade* pe1, Entidade* pe2) const;
 
     void tratarColisoesJogsObstacs();
+    void tratarColisoesJogsChao();
     void tratarColisoesJogsInimgs();
     void tratarColisoesJogsProjeteis();
     void tratarColisoesProjeteisInimgs();
@@ -35,8 +38,9 @@ public:
     void setJogador(Jogador* pJ);
     void incluirInimigo(Inimigo* pi);
     void incluirObstaculo(Obstaculo* po);
-    void incluirProjetil(Projetil* pj);
-    void incluirProjetilJogador(Projetil* pj);
+    void incluirChao(Chao* pc);
+    void incluirProjetil(BolaDeFogo* pj);
+    void incluirProjetilJogador(BolaDeFogo* pj);
 
     void limpar();
     void executar();

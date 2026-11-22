@@ -5,12 +5,12 @@
 
 class Obstaculo : public Entidade { // Declara a classe Obstaculo que herda de Entidade.
 protected:
-    bool danoso; // Indica se o obstáculo causa dano ao jogador
+    bool danoso; // Indica se o obstï¿½culo causa dano ao jogador
 
 public:
-    Obstaculo(const sf::Vector2f& posicao, const sf::Vector2f& tamanho, // Declara o construtor da classe recebendo posição, tamanho e cor.
+    Obstaculo(const sf::Vector2f& posicao, const sf::Vector2f& tamanho, // Declara o construtor da classe recebendo posiï¿½ï¿½o, tamanho e cor.
               const sf::Color& cor, bool ehDanoso = false);
-    void executar() override; // Declara a sobreposição do método de execução lógica.
-    virtual void obstacular(Jogador* pJog) = 0; // Método virtual puro para tratar a interação com o jogador
+    void executar() override; // Declara a sobreposiï¿½ï¿½o do mï¿½todo de execuï¿½ï¿½o lï¿½gica.
+    virtual void obstacular(Jogador* pJog) = 0; // Mï¿½todo virtual puro para tratar a interaï¿½ï¿½o com o jogador
 };
 #endif

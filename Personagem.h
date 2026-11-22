@@ -9,8 +9,8 @@ protected:
 public:
     Personagem(const sf::Vector2f& posicao, const sf::Vector2f& tamanho, // Construtor para inicializar as propriedades comuns a todos os personagens.
                const sf::Color& cor, float velocidade, int vidas);
-    int getVidas() const;               // Retorna o número atual de vidas do personagem.
+    int getVidas() const;               // Retorna o nï¿½mero atual de vidas do personagem.
     void perderVida();                  // Reduz a quantidade de vidas quando o personagem sofre dano.
-    void mover(float dx, float dy);     // Desloca o personagem no espaço de acordo com as variações dx e dy.
+    void mover(float dx, float dy);     // Desloca o personagem no espaï¿½o de acordo com as variaï¿½ï¿½es dx e dy.
 };
 #endif

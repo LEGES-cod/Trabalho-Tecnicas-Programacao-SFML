@@ -4,20 +4,20 @@
 
 class GerenciadorGrafico {
 private:
-    sf::RenderWindow janela; // Refere-se ao objeto concreto criado em memória a partir da classe sf::RenderWindow.
-    sf::Clock relogio;       // Relógio interno para calcular o tempo entre frames
+    sf::RenderWindow janela; // Refere-se ao objeto concreto criado em memï¿½ria a partir da classe sf::RenderWindow.
+    sf::Clock relogio;       // Relï¿½gio interno para calcular o tempo entre frames
     float deltaTime;         // Tempo decorrido no frame atual
 
-    GerenciadorGrafico();    // Construtor declarado na seção privada para impedir que instâncias externas criem objetos novos
+    GerenciadorGrafico();    // Construtor declarado na seï¿½ï¿½o privada para impedir que instï¿½ncias externas criem objetos novos
 public:
-    static GerenciadorGrafico* getInstancia(); // Fornece o ponto de acesso global a uma única instância do gestor gráfico
-    sf::RenderWindow& getJanela();             // Retorna a referência para a janela gráfica
-    bool janelaAberta() const;                 // Verifica se a janela está aberta
-    void limpar();                             // Limpa o conteúdo da janela (preenche com cor de fundo a cada frame)
-    void mostrar();                            // Apresenta no ecrã tudo que foi renderizado no frame atual
-    void fechar();                             // Fecha a janela gráfica
+    static GerenciadorGrafico* getInstancia(); // Fornece o ponto de acesso global a uma ï¿½nica instï¿½ncia do gestor grï¿½fico
+    sf::RenderWindow& getJanela();             // Retorna a referï¿½ncia para a janela grï¿½fica
+    bool janelaAberta() const;                 // Verifica se a janela estï¿½ aberta
+    void limpar();                             // Limpa o conteï¿½do da janela (preenche com cor de fundo a cada frame)
+    void mostrar();                            // Apresenta no ecrï¿½ tudo que foi renderizado no frame atual
+    void fechar();                             // Fecha a janela grï¿½fica
 
-    void desenharElemento(const sf::Drawable& drawable); // Desenha qualquer elemento gráfico da SFML
+    void desenharElemento(const sf::Drawable& drawable); // Desenha qualquer elemento grï¿½fico da SFML
     void atualizarDeltaTime();                           // Atualiza o deltaTime a cada frame
     float getDeltaTime() const;                          // Retorna o deltaTime atual
 };

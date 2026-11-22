@@ -4,6 +4,6 @@
 
 class Vecna : public Inimigo { // Declara a classe Vecna que herda de Inimigo.
 public:
-    explicit Vecna(const sf::Vector2f& posicao, Jogador* pJogador = nullptr); // Declara o construtor explícito que aceita a posição inicial do chefe no mundo do jogo.
+    explicit Vecna(const sf::Vector2f& posicao, Jogador* pJogador = nullptr); // Declara o construtor explï¿½cito que aceita a posiï¿½ï¿½o inicial do chefe no mundo do jogo.
 };
 #endif

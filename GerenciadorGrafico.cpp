@@ -1,26 +1,26 @@
 #include "GerenciadorGrafico.h"
 
-GerenciadorGrafico::GerenciadorGrafico() // Construtor cria uma janela com resolução de 800x600 pixels, com o título "Jogo - Hawkins" e limita a taxa de atualização a 60 fotogramas por segundo
+GerenciadorGrafico::GerenciadorGrafico() // Construtor cria uma janela com resoluï¿½ï¿½o de 800x600 pixels, com o tï¿½tulo "Jogo - Hawkins" e limita a taxa de atualizaï¿½ï¿½o a 60 fotogramas por segundo
     : janela(sf::VideoMode(800, 600), "Jogo - Hawkins"), deltaTime(0.f) {
     janela.setFramerateLimit(60);
 }
 
-GerenciadorGrafico* GerenciadorGrafico::getInstancia() { // Declara uma variável estática local que é criada apenas na primeira chamada e retornada em todas as outras
+GerenciadorGrafico* GerenciadorGrafico::getInstancia() { // Declara uma variï¿½vel estï¿½tica local que ï¿½ criada apenas na primeira chamada e retornada em todas as outras
     static GerenciadorGrafico instancia;
     return &instancia;
 }
 
-sf::RenderWindow& GerenciadorGrafico::getJanela() { return janela; } // Retorna a referência da janela
+sf::RenderWindow& GerenciadorGrafico::getJanela() { return janela; } // Retorna a referï¿½ncia da janela
 bool GerenciadorGrafico::janelaAberta() const { return janela.isOpen(); } // Retorna o estado de abertura da janela
 void GerenciadorGrafico::limpar() { janela.clear(sf::Color::White); } // Limpa a janela pintando o fundo de branco
-void GerenciadorGrafico::mostrar() { janela.display(); } // Atualiza o ecrã mostrando o conteúdo renderizado
-void GerenciadorGrafico::fechar() { janela.close(); } // Fecha a janela da aplicação
+void GerenciadorGrafico::mostrar() { janela.display(); } // Atualiza o ecrï¿½ mostrando o conteï¿½do renderizado
+void GerenciadorGrafico::fechar() { janela.close(); } // Fecha a janela da aplicaï¿½ï¿½o
 
 void GerenciadorGrafico::desenharElemento(const sf::Drawable& drawable) { // Desenha um objeto SFML na janela
     janela.draw(drawable);
 }
 
-void GerenciadorGrafico::atualizarDeltaTime() { // Calcula o tempo decorrido desde o último frame
+void GerenciadorGrafico::atualizarDeltaTime() { // Calcula o tempo decorrido desde o ï¿½ltimo frame
     deltaTime = relogio.restart().asSeconds();
     if (deltaTime > 0.05f) deltaTime = 0.05f;
 }

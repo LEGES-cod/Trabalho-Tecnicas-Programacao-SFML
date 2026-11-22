@@ -5,13 +5,13 @@ template <class TL>
 class Lista { // Declara a classe template de lista simplesmente encadeada
 public:
     template <class TE>
-    class Elemento { // Declara a classe interna que representa cada nó da lista
+    class Elemento { // Declara a classe interna que representa cada nï¿½ da lista
     private:
-        Elemento<TE>* pProx; // Ponteiro para o próximo elemento
-        TE* pInfo;           // Ponteiro para a informação armazenada
+        Elemento<TE>* pProx; // Ponteiro para o prï¿½ximo elemento
+        TE* pInfo;           // Ponteiro para a informaï¿½ï¿½o armazenada
 
     public:
-        Elemento() : pProx(nullptr), pInfo(nullptr) {} // Construtor padrão
+        Elemento() : pProx(nullptr), pInfo(nullptr) {} // Construtor padrï¿½o
         ~Elemento() {
             pProx = nullptr;
             pInfo = nullptr;
@@ -25,14 +25,14 @@ public:
     };
 
 private:
-    Elemento<TL>* pPrimeiro; // Ponteiro para o primeiro nó da lista
-    Elemento<TL>* pUltimo;   // Ponteiro para o último nó da lista
+    Elemento<TL>* pPrimeiro; // Ponteiro para o primeiro nï¿½ da lista
+    Elemento<TL>* pUltimo;   // Ponteiro para o ï¿½ltimo nï¿½ da lista
     int tamanho;             // Quantidade de elementos na lista
 
 public:
-    Lista() : pPrimeiro(nullptr), pUltimo(nullptr), tamanho(0) {} // Construtor padrão
+    Lista() : pPrimeiro(nullptr), pUltimo(nullptr), tamanho(0) {} // Construtor padrï¿½o
 
-    ~Lista() { // Destrutor que limpa os nós da lista
+    ~Lista() { // Destrutor que limpa os nï¿½s da lista
         limpar();
     }
 
@@ -52,7 +52,7 @@ public:
         tamanho++;
     }
 
-    void remover(TL* pInfo) { // Remove um elemento específico da lista
+    void remover(TL* pInfo) { // Remove um elemento especï¿½fico da lista
         if (!pInfo || !pPrimeiro) return;
 
         Elemento<TL>* atual = pPrimeiro;
@@ -77,7 +77,7 @@ public:
         tamanho--;
     }
 
-    void limpar() { // Desaloca todos os nós (Elementos) da lista
+    void limpar() { // Desaloca todos os nï¿½s (Elementos) da lista
         Elemento<TL>* atual = pPrimeiro;
         while (atual != nullptr) {
             Elemento<TL>* aux = atual;

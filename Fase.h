@@ -11,6 +11,7 @@
 #include "Jogador.h"
 #include "Inimigo.h"
 #include "Obstaculo.h"
+#include "Chao.h"
 
 class Fase : public Ente {
 protected:
@@ -22,17 +23,17 @@ protected:
     std::vector<Inimigo*> inimigos;
     bool exigirDerrotaInimigos;
 
+    sf::Color corChao;
     sf::Texture texturaFundo;
     sf::Sprite spriteFundo;
-    sf::RectangleShape chao;
+
 
     void adicionarInimigo(Inimigo* inimigo);
     void adicionarObstaculo(Obstaculo* obstaculo);
-    virtual void criarInimigos() = 0;
-    virtual void criarObstaculos() = 0;
+    void adicionarChao(Chao* chao);
 
 public:
-    Fase(const std::string& caminhoFundo);
+    Fase(const std::string& caminhoFundo, const sf::Color& corChao);
     virtual ~Fase();
     void inicializar();
     void executar() override;

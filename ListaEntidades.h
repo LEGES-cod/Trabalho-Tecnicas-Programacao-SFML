@@ -4,7 +4,7 @@
 #include "Lista.h"
 #include "Entidade.h"
 
-class ListaEntidades { // Classe que gerencia a coleção de entidades da fase
+class ListaEntidades { // Classe que gerencia a coleï¿½ï¿½o de entidades da fase
 private:
     Lista<Entidade> LEs; // Lista encadeada de entidades
 

@@ -8,7 +8,6 @@ protected:
     int dano;
     Jogador* pJog;
     bool vivo;
-    int pontos;
 
 public:
     Inimigo(const sf::Vector2f& posicao, const sf::Color& cor,
@@ -18,7 +17,6 @@ public:
     virtual void inverterDirecao() {}
 
     int getDano() const { return dano; }
-    int getPontos() const{ return pontos;}
     void setJogador(Jogador* pJ) { pJog = pJ; }
 
     void receberDano(int quantidade);

@@ -22,19 +22,19 @@ Jogo::Jogo()
     textoGameOver.setCharacterSize(48);
     textoGameOver.setFillColor(sf::Color::Red);
 
-    textoVoltarMenu.setFont(fonteGameOver);
-    textoVoltarMenu.setString("Tentar Novamente");
-    textoVoltarMenu.setCharacterSize(24);
-    textoVoltarMenu.setFillColor(sf::Color::White);
+    textoTentarNovamente.setFont(fonteGameOver);
+    textoTentarNovamente.setString("Tentar Novamente");
+    textoTentarNovamente.setCharacterSize(24);
+    textoTentarNovamente.setFillColor(sf::Color::White);
 
     textoSair.setFont(fonteGameOver);
     textoSair.setString("Sair");
     textoSair.setCharacterSize(24);
     textoSair.setFillColor(sf::Color::White);
 
-    // Botao voltar ao menu
-    botaoVoltarMenu.setSize(sf::Vector2f(300.f, 55.f));
-    botaoVoltarMenu.setPosition(250.f, 290.f);
+    // Botao Tentar Novamente
+    botaoTentarNovamente.setSize(sf::Vector2f(300.f, 55.f));
+    botaoTentarNovamente.setPosition(250.f, 290.f);
 
     // Botao sair
     botaoSair.setSize(sf::Vector2f(300.f, 55.f));
@@ -47,8 +47,8 @@ Jogo::Jogo()
         190.f - (limites.height / 2.f + limites.top)
     );
 
-    limites = textoVoltarMenu.getLocalBounds();
-    textoVoltarMenu.setPosition(
+    limites = textoTentarNovamente.getLocalBounds();
+    textoTentarNovamente.setPosition(
         400.f - (limites.width / 2.f + limites.left),
         317.5f - (limites.height / 2.f + limites.top)
     );
@@ -103,7 +103,7 @@ void Jogo::executar() {
             }
 
             // Destaca a opcao selecionada
-            botaoVoltarMenu.setFillColor(
+            botaoTentarNovamente.setFillColor(
                 opcaoGameOver == 1 ? sf::Color::Red : sf::Color(80, 80, 80)
             );
 
@@ -113,9 +113,9 @@ void Jogo::executar() {
 
             pGG->desenharElemento(fundoGameOver);
             pGG->desenharElemento(textoGameOver);
-            pGG->desenharElemento(botaoVoltarMenu);
+            pGG->desenharElemento(botaoTentarNovamente);
             pGG->desenharElemento(botaoSair);
-            pGG->desenharElemento(textoVoltarMenu);
+            pGG->desenharElemento(textoTentarNovamente);
             pGG->desenharElemento(textoSair);
         }
 

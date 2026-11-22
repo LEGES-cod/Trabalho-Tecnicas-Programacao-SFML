@@ -4,14 +4,14 @@
 
 class Entidade : public Ente { // Declara a classe Entidade que herda de Ente.
 protected:
-    sf::RectangleShape corpo;  // Declara um retângulo da SFML
+    sf::RectangleShape corpo;  // Declara um retï¿½ngulo da SFML
 public:
     Entidade(const sf::Vector2f& posicao, const sf::Vector2f& tamanho,
-             const sf::Color& cor); // Construtor que inicializa a entidade aceitando posição, tamanho e cor (RGB).
-    virtual ~Entidade() = default;  // Destrutor virtual padrão
-    sf::FloatRect getLimites() const; // Retorna os limites espaciais globais do retângulo (para detecção de colisões).
-    sf::Vector2f getPosicao() const;  // Retorna a posição atual da entidade
-    void setPosicao(const sf::Vector2f& posicao); // Altera a posição da Entidade
-    void desenhar() override; // Sobrescreve o método de desenho da classe Ente para desenhar o retângulo via pGG
+             const sf::Color& cor); // Construtor que inicializa a entidade aceitando posiï¿½ï¿½o, tamanho e cor (RGB).
+    virtual ~Entidade() = default;  // Destrutor virtual padrï¿½o
+    sf::FloatRect getLimites() const; // Retorna os limites espaciais globais do retï¿½ngulo (para detecï¿½ï¿½o de colisï¿½es).
+    sf::Vector2f getPosicao() const;  // Retorna a posiï¿½ï¿½o atual da entidade
+    void setPosicao(const sf::Vector2f& posicao); // Altera a posiï¿½ï¿½o da Entidade
+    void desenhar() override; // Sobrescreve o mï¿½todo de desenho da classe Ente para desenhar o retï¿½ngulo via pGG
 };
 #endif

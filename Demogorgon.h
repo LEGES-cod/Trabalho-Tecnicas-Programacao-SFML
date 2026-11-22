@@ -4,6 +4,6 @@
 
 class Demogorgon : public Inimigo { // Declara a classe Demogorgon e herda publicamente Inimigo.
 public:
-    explicit Demogorgon(const sf::Vector2f& posicao, Jogador* pJogador = nullptr); // Declara um construtor Demogorgon que recebe a posição do Demogorgon.
+    explicit Demogorgon(const sf::Vector2f& posicao, Jogador* pJogador = nullptr); // Declara um construtor Demogorgon que recebe a posiï¿½ï¿½o do Demogorgon.
 };
 #endif

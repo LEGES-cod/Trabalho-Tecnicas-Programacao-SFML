@@ -8,12 +8,12 @@ private:
     bool ativo;
     sf::Texture texturaFundo;
     sf::Sprite fundoMenu;
-    sf::RectangleShape botaoFase1;
-    sf::RectangleShape botaoFase2;
+    sf::RectangleShape botaoHawkins;
+    sf::RectangleShape botaoMundoInvertido;
 
     sf::Font fonte;
-    sf::Text textoFase1;
-    sf::Text textoFase2;
+    sf::Text textoHawkins;
+    sf::Text textoMundoInvertido;
 
 public:
     Menu();

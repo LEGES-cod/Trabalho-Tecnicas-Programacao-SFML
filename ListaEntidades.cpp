@@ -2,7 +2,7 @@
 
 ListaEntidades::ListaEntidades() {}
 
-ListaEntidades::~ListaEntidades() { // Destrutor que libera a memória das entidades
+ListaEntidades::~ListaEntidades() { // Destrutor que libera a memï¿½ria das entidades
     limpar();
 }
 
@@ -14,7 +14,7 @@ void ListaEntidades::remover(Entidade* pE) { // Remove uma entidade da lista int
     LEs.remover(pE);
 }
 
-void ListaEntidades::percorrer() { // Percorre todos os nós atualizando a lógica e desenhando
+void ListaEntidades::percorrer() { // Percorre todos os nï¿½s atualizando a lï¿½gica e desenhando
     Lista<Entidade>::Elemento<Entidade>* pAux = LEs.getPrimeiro();
     while (pAux != nullptr) {
         Entidade* pEnt = pAux->getInfo();
@@ -26,7 +26,7 @@ void ListaEntidades::percorrer() { // Percorre todos os nós atualizando a lógica
     }
 }
 
-void ListaEntidades::limpar() { // Deleta todas as entidades alocadas dinamicamente e limpa os nós
+void ListaEntidades::limpar() { // Deleta todas as entidades alocadas dinamicamente e limpa os nï¿½s
     Lista<Entidade>::Elemento<Entidade>* pAux = LEs.getPrimeiro();
     while (pAux != nullptr) {
         Entidade* pEnt = pAux->getInfo();

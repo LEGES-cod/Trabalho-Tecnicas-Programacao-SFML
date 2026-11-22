@@ -7,10 +7,7 @@ Demodog::Demodog(const sf::Vector2f& posicao, Jogador* pJogador)
       limiteDireito(posicao.x + 100.f),
       indoDireita(true),
       raioVisao(180.f),
-      velocidadeAtaque(200.f){
-
-        pontos = 15;
-        vidas = 10;
+      velocidadeAtaque(200.f) {
 
     corpo.setSize(sf::Vector2f(60.f, 60.f));
 
@@ -66,4 +63,3 @@ void Demodog::executar() {
         }
     }
 }
-

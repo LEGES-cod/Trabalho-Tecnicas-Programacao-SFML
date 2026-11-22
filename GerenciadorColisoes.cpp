@@ -19,17 +19,22 @@ void GerenciadorColisoes::incluirObstaculo(Obstaculo* po) {
     if (po) LOs.push_back(po);
 }
 
-void GerenciadorColisoes::incluirProjetil(Projetil* pj) {
+void GerenciadorColisoes::incluirChao(Chao* pc) {
+    if (pc) LCs.push_back(pc);
+}
+
+void GerenciadorColisoes::incluirProjetil(BolaDeFogo* pj) {
     if (pj) LPs.insert(pj);
 }
 
-void GerenciadorColisoes::incluirProjetilJogador(Projetil* pj) {
+void GerenciadorColisoes::incluirProjetilJogador(BolaDeFogo* pj) {
     if (pj) projeteisJogador.insert(pj);
 }
 
 void GerenciadorColisoes::limpar() {
     LIs.clear();
     LOs.clear();
+    LCs.clear();
     LPs.clear();
     projeteisJogador.clear();
     pJog1 = nullptr;
@@ -49,6 +54,16 @@ void GerenciadorColisoes::tratarColisoesJogsObstacs() {
     for (auto* obstaculo : LOs) {
         if (verificarColisao(pJog1, obstaculo)) {
             obstaculo->obstacular(pJog1);
+        }
+    }
+}
+
+void GerenciadorColisoes::tratarColisoesJogsChao() {
+    if (!pJog1) return;
+
+    for (auto* chao : LCs) {
+        if (verificarColisao(pJog1, chao)) {
+            chao->colidir(pJog1);
         }
     }
 }
@@ -88,11 +103,6 @@ void GerenciadorColisoes::tratarColisoesProjeteisInimgs() {
             if (verificarColisao(projetil, inimigo)) {
                 inimigo->receberDano(projetil->getDano());
                 projetil->desativar();
-
-                if(!inimigo->estaVivo() &&pJog1)
-                {
-                    pJog1->adicionarPontos(inimigo->getPontos());
-                }
                 break;
             }
         }
@@ -132,6 +142,7 @@ void GerenciadorColisoes::tratarColisoesInimgsObstacs() {
 
 void GerenciadorColisoes::executar() {
     tratarColisoesJogsObstacs();
+    tratarColisoesJogsChao();
     tratarColisoesJogsInimgs();
     tratarColisoesJogsProjeteis();
     tratarColisoesProjeteisInimgs();

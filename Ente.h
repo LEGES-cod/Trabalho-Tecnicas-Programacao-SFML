@@ -4,17 +4,17 @@
 
 class Ente {
 protected:
-    int id;                            // Identificador único do ente
-    static int contId;                 // Contador estático para gerar IDs
-    static GerenciadorGrafico* pGG;    // Ponteiro estático para o gerenciador gráfico
+    int id;                            // Identificador ï¿½nico do ente
+    static int contId;                 // Contador estï¿½tico para gerar IDs
+    static GerenciadorGrafico* pGG;    // Ponteiro estï¿½tico para o gerenciador grï¿½fico
 
 public:
-    Ente();                            // Construtor padrão
-    virtual ~Ente() = default;         // Destrutor virtual padrão
-    virtual void executar() = 0;       // Virtual pura, atualiza a lógica do ente a cada frame
-    virtual void desenhar() = 0;       // Função virtual pura que desenha o ente na janela do jogo
+    Ente();                            // Construtor padrï¿½o
+    virtual ~Ente() = default;         // Destrutor virtual padrï¿½o
+    virtual void executar() = 0;       // Virtual pura, atualiza a lï¿½gica do ente a cada frame
+    virtual void desenhar() = 0;       // Funï¿½ï¿½o virtual pura que desenha o ente na janela do jogo
 
     int getId() const;
-    static void setGG(GerenciadorGrafico* pG); // Define o gerenciador gráfico compartilhado
+    static void setGG(GerenciadorGrafico* pG); // Define o gerenciador grï¿½fico compartilhado
 };
 #endif

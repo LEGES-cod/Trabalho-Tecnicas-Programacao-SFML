@@ -1,16 +1,14 @@
 
 #include "Fase.h"
-#include "Projetil.h"
+#include "BolaDeFogo.h"
+#include "PlataformaEstatica.h"
 
-Fase::Fase(const std::string& caminhoFundo)
+Fase::Fase(const std::string& caminhoFundo, const sf::Color& corChao)
     : Ente(), pJog1(nullptr), concluida(false),
-      exigirDerrotaInimigos(false) {
+      exigirDerrotaInimigos(false), corChao(corChao) {
     if (texturaFundo.loadFromFile(caminhoFundo)) {
         spriteFundo.setTexture(texturaFundo);
     }
-    chao.setSize(sf::Vector2f(800.f, 100.f));
-    chao.setPosition(0.f, 530.f);
-    chao.setFillColor(sf::Color(35, 35, 35));
 }
 
 Fase::~Fase() {
@@ -23,8 +21,11 @@ void Fase::inicializar() {
     LEnts.incluir(pJog1);
     gColisoes.setJogador(pJog1);
 
-    criarInimigos();
-    criarObstaculos();
+    adicionarChao(new Chao(sf::Vector2f(0.f, 535.f),
+                           sf::Vector2f(800.f, 65.f), corChao));
+    // Plataforma elevada compartilhada pelas fases; o jogador pode pular e aterrissar nela.
+    adicionarObstaculo(new PlataformaEstatica(sf::Vector2f(300.f, 450.f),
+                                               sf::Vector2f(180.f, 20.f)));
 }
 
 void Fase::adicionarInimigo(Inimigo* inimigo) {
@@ -33,6 +34,13 @@ void Fase::adicionarInimigo(Inimigo* inimigo) {
         inimigos.push_back(inimigo);
         LEnts.incluir(inimigo);
         gColisoes.incluirInimigo(inimigo);
+    }
+}
+
+void Fase::adicionarChao(Chao* chao) {
+    if (chao) {
+        LEnts.incluir(chao);
+        gColisoes.incluirChao(chao);
     }
 }
 
@@ -53,7 +61,7 @@ void Fase::executar() {
         sf::Vector2f posicao = pJog1->getPosicao();
         float direcao = pJog1->getDirecao();
 
-        Projetil* bolaFogo = new Projetil(
+        BolaDeFogo* bolaFogo = new BolaDeFogo(
             sf::Vector2f(
                 direcao > 0 ? posicao.x + 35.f : posicao.x - 16.f,
                 posicao.y + 10.f
@@ -97,7 +105,6 @@ void Fase::desenhar() {
     }
 
     pGG->desenharElemento(spriteFundo);
-    pGG->desenharElemento(chao);
 }
 
 bool Fase::terminou() const {

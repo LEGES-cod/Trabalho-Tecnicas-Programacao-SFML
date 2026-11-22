@@ -1,9 +1,9 @@
 #include "TroncoCaido.h"
 
-TroncoCaido::TroncoCaido(const sf::Vector2f& posicao) // Implementa o construtor da classe: repassa a posição recebida, define um tamanho fixo, define uma cor
+TroncoCaido::TroncoCaido(const sf::Vector2f& posicao) // Implementa o construtor da classe: repassa a posiï¿½ï¿½o recebida, define um tamanho fixo, define uma cor
     : Obstaculo(posicao, sf::Vector2f(110.f, 25.f), sf::Color(110, 65, 25), false) {} // Marrom escuro
 
-void TroncoCaido::obstacular(Jogador* pJog) { // Colisão inteligente com o Tronco
+void TroncoCaido::obstacular(Jogador* pJog) { // Colisï¿½o inteligente com o Tronco
     if (!pJog) return;
     float deltaTime = pGG ? pGG->getDeltaTime() : 0.016f;
     sf::FloatRect rectJogador = pJog->getLimites();     // Caixa delimitadora do jogador

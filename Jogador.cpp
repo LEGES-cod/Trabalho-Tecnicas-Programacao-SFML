@@ -58,15 +58,6 @@ void Jogador::executar() {
     float dy = velocidadeY * deltaTime;
     mover(dx, dy);
 
-    sf::Vector2f p = getPosicao();
-
-    if (p.y >= 500.f) {
-        p.y = 500.f;
-        velocidadeY = 0.f;
-        noChao = true;
-        setPosicao(p);
-    }
-
     limitarNaTela();
 }
 
@@ -113,8 +104,6 @@ void Jogador::receberDano(int dano) {
 
 void Jogador::adicionarPontos(int p) {
     pontos += p;
-
-    std::cout << "total de pontos: " << getPontos() << std::endl;
 }
 
 int Jogador::getPontos() const {
