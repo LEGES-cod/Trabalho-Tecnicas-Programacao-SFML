@@ -1,4 +1,7 @@
 #include "GerenciadorColisoes.h"
+#include "Demogorgon.h"
+#include "PlataformaEstatica.h"
+#include <cmath>
 
 GerenciadorColisoes::GerenciadorColisoes()
     : pJog1(nullptr) {}
@@ -52,7 +55,13 @@ void GerenciadorColisoes::tratarColisoesJogsObstacs() {
     if (!pJog1) return;
 
     for (auto* obstaculo : LOs) {
-        if (verificarColisao(pJog1, obstaculo)) {
+
+        // A plataforma estatica precisa ser verificada
+        // mesmo quando o jogador apenas encosta nela.
+        if (dynamic_cast<PlataformaEstatica*>(obstaculo)) {
+            obstaculo->obstacular(pJog1);
+        }
+        else if (verificarColisao(pJog1, obstaculo)) {
             obstaculo->obstacular(pJog1);
         }
     }
@@ -75,7 +84,12 @@ void GerenciadorColisoes::tratarColisoesJogsInimgs() {
         if (inimigo->estaVivo() &&
             verificarColisao(pJog1, inimigo)) {
 
-            pJog1->receberDano(inimigo->getDano());
+            if (dynamic_cast<Demogorgon*>(inimigo)) {
+                pJog1->iniciarDanoContinuo();
+            }
+            else {
+                pJog1->receberDano(inimigo->getDano());
+            }
         }
     }
 }
@@ -92,6 +106,40 @@ void GerenciadorColisoes::tratarColisoesJogsProjeteis() {
         }
     }
 }
+
+
+void GerenciadorColisoes::tratarColisoesProjeteisObstacs() {
+
+    for (auto* projetil : projeteisJogador) {
+        if (!projetil->getAtivo()) continue;
+
+        for (auto* obstaculo : LOs) {
+
+            if (verificarColisao(projetil, obstaculo)) {
+                projetil->desativar();
+                break;
+            }
+        }
+    }
+
+    // Mantém a colisão dos projéteis inimigos
+    // com as plataformas estáticas.
+    for (auto* projetil : LPs) {
+        if (!projetil->getAtivo()) continue;
+
+        for (auto* obstaculo : LOs) {
+
+            if (dynamic_cast<PlataformaEstatica*>(obstaculo)) {
+
+                if (verificarColisao(projetil, obstaculo)) {
+                    projetil->desativar();
+                    break;
+                }
+            }
+        }
+    }
+}
+
 
 void GerenciadorColisoes::tratarColisoesProjeteisInimgs() {
     for (auto* projetil : projeteisJogador) {
@@ -125,7 +173,8 @@ void GerenciadorColisoes::tratarColisoesInimgsObstacs() {
                             limitesIni.top
                         )
                     );
-                } else {
+                }
+                else {
                     inimigo->setPosicao(
                         sf::Vector2f(
                             limitesObs.left + limitesObs.width,
@@ -144,6 +193,10 @@ void GerenciadorColisoes::executar() {
     tratarColisoesJogsObstacs();
     tratarColisoesJogsChao();
     tratarColisoesJogsInimgs();
+
+    // Impede que os projéteis inimigos atravessem plataformas.
+    tratarColisoesProjeteisObstacs();
+
     tratarColisoesJogsProjeteis();
     tratarColisoesProjeteisInimgs();
     tratarColisoesInimgsObstacs();

@@ -1,17 +1,19 @@
 #ifndef BOLADEFOGO_H
 #define BOLADEFOGO_H
+
 #include "Entidade.h"
 
 class BolaDeFogo : public Entidade {
 private:
-    float velocidadeX;
+    sf::Vector2f velocidade;
     int dano;
     bool ativo;
 
 public:
     BolaDeFogo(const sf::Vector2f& posicao, float velX,
-             int danoProjetil = 5,
-             const sf::Color& cor = sf::Color::Magenta);
+               int danoProjetil = 5,
+               const sf::Color& cor = sf::Color::Magenta,
+               float velY = 0.f);
 
     void executar() override;
     void desenhar() override;
@@ -19,4 +21,5 @@ public:
     bool getAtivo() const;
     void desativar();
 };
+
 #endif

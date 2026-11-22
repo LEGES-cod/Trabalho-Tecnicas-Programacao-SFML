@@ -32,6 +32,7 @@ protected:
     void adicionarObstaculo(Obstaculo* obstaculo);
     void adicionarChao(Chao* chao);
 
+
 public:
     Fase(const std::string& caminhoFundo, const sf::Color& corChao);
     virtual ~Fase();
@@ -40,5 +41,6 @@ public:
     void desenhar() override;
     bool terminou() const;
     bool jogadorMorreu() const;
+    void setPersonagem(int indice);
 };
 #endif

@@ -29,6 +29,7 @@ private:
     void tratarColisoesJogsInimgs();
     void tratarColisoesJogsProjeteis();
     void tratarColisoesProjeteisInimgs();
+    void tratarColisoesProjeteisObstacs();
     void tratarColisoesInimgsObstacs();
 
 public:
@@ -45,4 +46,5 @@ public:
     void limpar();
     void executar();
 };
+
 #endif

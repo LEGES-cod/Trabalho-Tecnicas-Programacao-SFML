@@ -132,6 +132,7 @@ void Jogo::executar() {
                     faseAtual = new FaseMundoInvertido();
                     segundaFase = true;
                 }
+                faseAtual->setPersonagem(menu.getPersonagemSelecionado());
             }
         }
 
@@ -152,6 +153,7 @@ void Jogo::executar() {
             else if (faseAtual->terminou() && !segundaFase) {
                 delete faseAtual;
                 faseAtual = new FaseMundoInvertido();
+                faseAtual->setPersonagem(menu.getPersonagemSelecionado());
                 segundaFase = true;
             }
             else if (faseAtual->terminou() && segundaFase) {
