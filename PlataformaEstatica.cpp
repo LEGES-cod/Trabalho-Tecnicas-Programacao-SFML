@@ -1,4 +1,5 @@
 #include "PlataformaEstatica.h"
+#include <algorithm>
 #include <cmath>
 
 PlataformaEstatica::PlataformaEstatica(
@@ -29,12 +30,10 @@ void PlataformaEstatica::obstacular(Jogador* pJog) {
     float topoAnterior =
         rectJogador.top - velocidadeY * deltaTime;
 
-    // Verifica se o jogador está horizontalmente sobre a plataforma.
     bool alinhadoHorizontalmente =
         rectJogador.left + rectJogador.width > rectPlataforma.left &&
         rectJogador.left < rectPlataforma.left + rectPlataforma.width;
 
-    // Verifica se o jogador está apoiado ou acabou de aterrissar.
     bool apoiado =
         alinhadoHorizontalmente &&
         velocidadeY >= 0.f &&
@@ -47,40 +46,27 @@ void PlataformaEstatica::obstacular(Jogador* pJog) {
         baseJogador >= topoPlataforma - 2.f;
 
     if (apoiado || aterrissando) {
-
-        // Ajusta a posição para manter o jogador sobre a plataforma.
         pJog->aterrar(topoPlataforma - rectJogador.height);
-
-        // Interrompe o dano contínuo e recupera vida.
         pJog->curarGradualmente(deltaTime);
-
         return;
     }
 
-    // Se não existe interseção, não há colisão lateral ou inferior.
     if (!rectJogador.intersects(rectPlataforma)) {
         return;
     }
 
-    // Colisão por baixo da plataforma.
     if (velocidadeY < 0.f &&
         topoAnterior >= basePlataforma - 10.f) {
 
         pJog->baterCabeca(basePlataforma);
     }
-
-    // Colisão lateral esquerda.
     else if (rectJogador.left < rectPlataforma.left) {
-
         pJog->setPosicao(sf::Vector2f(
             rectPlataforma.left - rectJogador.width,
             rectJogador.top
         ));
     }
-
-    // Colisão lateral direita.
     else if (rectJogador.left > rectPlataforma.left) {
-
         pJog->setPosicao(sf::Vector2f(
             rectPlataforma.left + rectPlataforma.width,
             rectJogador.top

@@ -2,15 +2,16 @@
 #include <iostream>
 #include <algorithm>
 
-Jogador::Jogador()
-    : Personagem(sf::Vector2f(80.f, 500.f),
-                 sf::Vector2f(35.f, 35.f),
-                 sf::Color::Red, 250.f, 100),
+Jogador::Jogador(int id)
+    : Personagem(sf::Vector2f(id == 1 ? 80.f : 145.f, 499.f),
+                 sf::Vector2f(40.f, 36.f),
+                 id == 1 ? sf::Color::Red : sf::Color::Blue, 250.f, 100),
+      idJogador(id),
       velocidadeY(0.f),
       noChao(true),
       tempoInvencivel(0.f),
       pontos(0),
-      tempoDisparo(0.f),
+      tempoDisparo(0.35f),
       disparoSolicitado(false),
       direcao(1.f),
       sangrando(false),
@@ -19,17 +20,12 @@ Jogador::Jogador()
       personagemCarregado(false) {}
 
 void Jogador::setPersonagem(int indice) {
-
-    const char* arquivos[6] = {
-        "dustin.jpg",
-        "eleven.png",
-        "lucas.jpg",
-        "max.jpg",
+    const char* arquivos[2] = {
         "mike.jpg",
-        "will.png"
+        "eleven.png"
     };
 
-    if (indice < 0 || indice >= 6) {
+    if (indice < 0 || indice >= 2) {
         return;
     }
 
@@ -37,26 +33,23 @@ void Jogador::setPersonagem(int indice) {
         texturaPersonagem.loadFromFile(arquivos[indice]);
 
     if (personagemCarregado) {
-        texturaPersonagem.setSmooth(true);
+        texturaPersonagem.setSmooth(false);
         spritePersonagem.setTexture(texturaPersonagem);
     }
 }
 
 void Jogador::desenhar() {
-
     if (!pGG) return;
 
     if (personagemCarregado) {
-
         sf::FloatRect limites = getLimites();
         sf::FloatRect imagem = spritePersonagem.getLocalBounds();
 
         if (imagem.width > 0.f && imagem.height > 0.f) {
-
-            // Mantém a proporção da imagem.
+            const float tamanhoVisual = 55.f;
             float escala = std::min(
-                limites.width / imagem.width,
-                limites.height / imagem.height
+                tamanhoVisual / imagem.width,
+                tamanhoVisual / imagem.height
             );
 
             spritePersonagem.setScale(escala, escala);
@@ -64,10 +57,10 @@ void Jogador::desenhar() {
             float largura = imagem.width * escala;
             float altura = imagem.height * escala;
 
-            // Posiciona a imagem no lugar do retângulo do jogador.
+            // Mantem os pes no chao e o topo da hitbox alinhado com o cabelo
             spritePersonagem.setPosition(
                 limites.left + (limites.width - largura) / 2.f,
-                limites.top + (limites.height - altura) / 2.f
+                limites.top + limites.height - altura + 7.f
             );
 
             pGG->desenharElemento(spritePersonagem);
@@ -75,7 +68,6 @@ void Jogador::desenhar() {
         }
     }
 
-    // Mantém o retângulo original caso não carregue uma imagem.
     pGG->desenharElemento(corpo);
 }
 
@@ -100,26 +92,42 @@ void Jogador::executar() {
     if (tempoDisparo > 0.f)
         tempoDisparo -= deltaTime;
 
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) ||
-        sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
-        dx -= velocidade * deltaTime;
-        direcao = -1.f;
+    if (idJogador == 1) {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::A)) {
+            dx -= velocidade * deltaTime;
+            direcao = -1.f;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
+            dx += velocidade * deltaTime;
+            direcao = 1.f;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W)) {
+            pular();
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) &&
+            tempoDisparo <= 0.f) {
+            disparoSolicitado = true;
+            tempoDisparo = 0.35f;
+        }
     }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) ||
-        sf::Keyboard::isKeyPressed(sf::Keyboard::D)) {
-        dx += velocidade * deltaTime;
-        direcao = 1.f;
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
-        pular();
-    }
-
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) &&
-        tempoDisparo <= 0.f) {
-        disparoSolicitado = true;
-        tempoDisparo = 0.35f;
+    else {
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left)) {
+            dx -= velocidade * deltaTime;
+            direcao = -1.f;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right)) {
+            dx += velocidade * deltaTime;
+            direcao = 1.f;
+        }
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up)) {
+            pular();
+        }
+        if ((sf::Keyboard::isKeyPressed(sf::Keyboard::Enter) ||
+             sf::Keyboard::isKeyPressed(sf::Keyboard::RControl)) &&
+            tempoDisparo <= 0.f) {
+            disparoSolicitado = true;
+            tempoDisparo = 0.35f;
+        }
     }
 
     velocidadeY += GRAVIDADE * deltaTime;
@@ -141,9 +149,10 @@ bool Jogador::consumirDisparo() {
 
 void Jogador::limitarNaTela() {
     sf::Vector2f p = getPosicao();
+    float largura = getLimites().width;
 
     if (p.x < 0.f) p.x = 0.f;
-    if (p.x + 35.f > 800.f) p.x = 765.f;
+    if (p.x + largura > 800.f) p.x = 800.f - largura;
 
     setPosicao(p);
 }
@@ -176,8 +185,8 @@ void Jogador::receberDano(int dano) {
 
         tempoInvencivel = 1.0f;
 
-        std::cout << "vidas atual: "
-                  << getVidas() << std::endl;
+        std::cout << "Jogador " << idJogador
+                  << " vidas atual: " << getVidas() << std::endl;
     }
 }
 
@@ -204,9 +213,6 @@ void Jogador::atualizarDanoContinuo(float deltaTime) {
         if (vidas < 0) {
             vidas = 0;
         }
-
-        std::cout << "vidas atual: "
-                  << getVidas() << std::endl;
     }
 }
 
@@ -224,9 +230,6 @@ void Jogador::curarGradualmente(float deltaTime) {
 
         if (vidas < 100) {
             vidas += 1;
-
-            std::cout << "vidas atual: "
-                      << getVidas() << std::endl;
         }
     }
 }

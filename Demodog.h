@@ -2,6 +2,7 @@
 #define DEMODOG_H
 
 #include "Inimigo.h"
+class Jogador;
 
 class Demodog : public Inimigo {
 private:

@@ -1,10 +1,17 @@
-#ifndef TRONCOCAIDO_H
-#define TRONCOCAIDO_H
+#pragma once
 #include "Obstaculo.h"
+#include <SFML/Graphics.hpp>
 
-class TroncoCaido : public Obstaculo { // Declara a classe TroncoCaido que herda de Obstaculo.
+class TroncoCaido : public Obstaculo {
+private:
+    sf::Texture textura;
+    sf::Sprite sprite;
+    bool texturaCarregada;
+
 public:
-    explicit TroncoCaido(const sf::Vector2f& posicao); // Declara o construtor expl�cito que recebe apenas a posi��o vetorial onde o tronco ser� colocado no cen�rio.
-    void obstacular(Jogador* pJog) override; // Trata a colis�o com o tronco (aterrissagem e bloqueio lateral)
+    TroncoCaido(const sf::Vector2f& posicao);
+    ~TroncoCaido() override = default;
+
+    void obstacular(Jogador* pJog) override;
+    void desenhar() override;
 };
-#endif

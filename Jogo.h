@@ -17,14 +17,27 @@ private:
     bool gameOver;
     int opcaoGameOver;
 
-    sf::Font fonteGameOver;
-    sf::Text textoGameOver;
-    sf::Text textoTentarNovamente;
-    sf::Text textoSair;
+    bool pausado;
+    int opcaoPausa;
 
-    sf::RectangleShape fundoGameOver;
-    sf::RectangleShape botaoTentarNovamente;
-    sf::RectangleShape botaoSair;
+    bool vitoria;
+    int opcaoVitoria;
+    int pontuacaoFinal;
+
+    bool teclaMenuAnterior;
+
+    sf::Font fonteUI;
+    sf::RectangleShape fundoSobreposicao;
+
+    sf::Text textoTituloTela;
+    sf::Text textoSubtituloTela;
+
+    sf::RectangleShape botoesTela[3];
+    sf::Text textosBotoesTela[3];
+
+    void configurarBotao(int indice, const std::string& texto, float y);
+    void desenharTelaOpcoes(const std::string& titulo, sf::Color corTitulo,
+                            const std::string& subtitulo, int qtdBotoes, int opcaoAtual);
 
 public:
     Jogo();

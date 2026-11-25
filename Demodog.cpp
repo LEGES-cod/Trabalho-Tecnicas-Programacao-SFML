@@ -1,4 +1,5 @@
 #include "Demodog.h"
+#include "Jogador.h"
 #include <cmath>
 
 Demodog::Demodog(const sf::Vector2f& posicao, Jogador* pJogador)
@@ -9,9 +10,11 @@ Demodog::Demodog(const sf::Vector2f& posicao, Jogador* pJogador)
       raioVisao(180.f),
       velocidadeAtaque(200.f) {
 
-    corpo.setSize(sf::Vector2f(60.f, 60.f));
+    // Hitbox compacta ajustada ao corpo visivel do Demodog
+    corpo.setSize(sf::Vector2f(40.f, 35.f));
 
     if (textura.loadFromFile("demodog.png")) {
+        textura.setSmooth(false);
         sprite.setTexture(textura);
 
         sf::Vector2u tamanho = textura.getSize();
@@ -25,7 +28,15 @@ Demodog::Demodog(const sf::Vector2f& posicao, Jogador* pJogador)
 
 void Demodog::desenhar() {
     if (pGG && estaVivo()) {
-        sprite.setPosition(getPosicao().x, getPosicao().y - 20.f);
+        sf::FloatRect limites = getLimites();
+        sf::FloatRect imagem = sprite.getLocalBounds();
+        float largura = imagem.width * sprite.getScale().x;
+        float altura = imagem.height * sprite.getScale().y;
+
+        sprite.setPosition(
+            limites.left + (limites.width - largura) / 2.f,
+            limites.top + limites.height - altura + 11.f
+        );
         pGG->desenharElemento(sprite);
     }
 }
@@ -52,7 +63,7 @@ void Demodog::executar() {
         float velPatrulhia = 80.f;
         if (indoDireita) {
             mover(velPatrulhia * deltaTime, 0.f);
-            if (getPosicao().x >= limiteDireito || getPosicao().x >= 765.f) {
+            if (getPosicao().x >= limiteDireito || getPosicao().x >= 760.f) {
                 indoDireita = false;
             }
         } else {
@@ -62,4 +73,5 @@ void Demodog::executar() {
             }
         }
     }
+    aplicarGravidade(deltaTime);
 }

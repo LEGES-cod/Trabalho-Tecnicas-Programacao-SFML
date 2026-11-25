@@ -13,12 +13,6 @@ private:
     sf::Sprite sprite;
     bool texturaCarregada;
 
-    // Sistema de vidas
-    int vidas;
-
-    // Movimentação para perseguir o jogador
-    float velocidade;
-
 public:
     explicit Demogorgon(
         const sf::Vector2f& posicao,
@@ -28,9 +22,6 @@ public:
     void executar() override;
     void desenhar() override;
     bool consumirDisparo();
-
-    void receberDano(int dano);
-    int getVidas() const;
 
     void mover();
 };

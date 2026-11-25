@@ -13,6 +13,7 @@
 
 class GerenciadorColisoes {
 private:
+    void tratarColisoesInimgsChao();
     std::vector<Inimigo*> LIs;
     std::list<Obstaculo*> LOs;
     std::list<Chao*> LCs;
@@ -21,6 +22,7 @@ private:
     std::set<BolaDeFogo*> projeteisJogador;
 
     Jogador* pJog1;
+    Jogador* pJog2;
 
     const bool verificarColisao(Entidade* pe1, Entidade* pe2) const;
 
@@ -37,6 +39,7 @@ public:
     ~GerenciadorColisoes();
 
     void setJogador(Jogador* pJ);
+    void setJogador2(Jogador* pJ);
     void incluirInimigo(Inimigo* pi);
     void incluirObstaculo(Obstaculo* po);
     void incluirChao(Chao* pc);

@@ -6,6 +6,7 @@
 
 class Jogador : public Personagem {
 private:
+    int idJogador;
     float velocidadeY;
     bool noChao;
 
@@ -23,13 +24,12 @@ private:
     float tempoDanoContinuo;
     float acumuladorCura;
 
-    // Imagem do personagem selecionado.
     sf::Texture texturaPersonagem;
     sf::Sprite spritePersonagem;
     bool personagemCarregado;
 
 public:
-    Jogador();
+    Jogador(int id = 1);
 
     void executar() override;
     void desenhar() override;
@@ -40,9 +40,11 @@ public:
     void baterCabeca(float alturaY);
 
     bool consumirDisparo();
-
-    // Escolhe a aparência do jogador.
     void setPersonagem(int indice);
+
+    bool estaVivo() const {
+        return vidas > 0;
+    }
 
     float getVelocidadeY() const {
         return velocidadeY;

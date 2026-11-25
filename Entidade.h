@@ -15,3 +15,4 @@ public:
     void desenhar() override; // Sobrescreve o m�todo de desenho da classe Ente para desenhar o ret�ngulo via pGG
 };
 #endif
+

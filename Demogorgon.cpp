@@ -1,4 +1,5 @@
 #include "Demogorgon.h"
+#include "Jogador.h"
 #include <algorithm>
 
 Demogorgon::Demogorgon(
@@ -8,26 +9,24 @@ Demogorgon::Demogorgon(
     : Inimigo(posicao, sf::Color(120, 0, 0), pJogador),
       tempoDisparo(1.8f),
       disparoSolicitado(false),
-      texturaCarregada(false),
-      vidas(30),
-      velocidade(50.f) {
+      texturaCarregada(false) {
 
+    // Hitbox compacta ajustada ao corpo visivel do Demogorgon
+    corpo.setSize(sf::Vector2f(34.f, 48.f));
+    vidas = 30;
+    velocidade = 50.f;
     dano = 10;
 
-    // Carrega a imagem PNG do Demogorgon.
     if (textura.loadFromFile("demogorgon.png")) {
-
+        textura.setSmooth(false);
         sprite.setTexture(textura);
-
         sf::Vector2u tamanho = textura.getSize();
 
         if (tamanho.x > 0 && tamanho.y > 0) {
-
             float escala = std::min(
                 60.f / tamanho.x,
                 60.f / tamanho.y
             );
-
             sprite.setScale(escala, escala);
             texturaCarregada = true;
         }
@@ -35,14 +34,10 @@ Demogorgon::Demogorgon(
 }
 
 void Demogorgon::executar() {
-    if (!vivo || !pGG) return;
+    if (!estaVivo() || !pGG) return;
 
     float deltaTime = pGG->getDeltaTime();
 
-    // Persegue o jogador
-    mover();
-
-    // Sistema de disparo
     if (pJog) {
         tempoDisparo -= deltaTime;
 
@@ -51,17 +46,18 @@ void Demogorgon::executar() {
             tempoDisparo = 1.8f;
         }
     }
+
+    aplicarGravidade(deltaTime);
 }
 
 void Demogorgon::mover() {
-    if (!pJog || !vivo) return;
+    if (!pJog || !estaVivo()) return;
 
     float deltaTime = pGG->getDeltaTime();
 
     sf::Vector2f posicaoDemogorgon = corpo.getPosition();
     sf::Vector2f posicaoJogador = pJog->getLimites().getPosition();
 
-    // Segue o jogador horizontalmente
     if (posicaoDemogorgon.x < posicaoJogador.x) {
         posicaoDemogorgon.x += velocidade * deltaTime;
     }
@@ -72,26 +68,10 @@ void Demogorgon::mover() {
     corpo.setPosition(posicaoDemogorgon);
 }
 
-void Demogorgon::receberDano(int danoRecebido) {
-    if (!vivo || danoRecebido <= 0) return;
-
-    vidas -= danoRecebido;
-
-    if (vidas <= 0) {
-        vidas = 0;
-        vivo = false;
-    }
-}
-
-int Demogorgon::getVidas() const {
-    return vidas;
-}
-
 void Demogorgon::desenhar() {
     if (!pGG || !estaVivo()) return;
 
     if (texturaCarregada) {
-
         sf::FloatRect limites = getLimites();
         sf::FloatRect imagem = sprite.getLocalBounds();
 
@@ -100,7 +80,7 @@ void Demogorgon::desenhar() {
 
         sprite.setPosition(
             limites.left + (limites.width - largura) / 2.f,
-            limites.top + limites.height - altura
+            limites.top + limites.height - altura + 5.f
         );
 
         pGG->desenharElemento(sprite);

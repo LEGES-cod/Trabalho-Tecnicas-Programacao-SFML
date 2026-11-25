@@ -1,9 +1,23 @@
 #ifndef VECNA_H
 #define VECNA_H
-#include "Inimigo.h"
 
-class Vecna : public Inimigo { // Declara a classe Vecna que herda de Inimigo.
+#include "Inimigo.h"
+#include <SFML/Graphics.hpp>
+
+class Vecna : public Inimigo {
+private:
+    float tempoAtaque;
+    bool ataqueSolicitado;
+    sf::Texture textura;
+    sf::Sprite sprite;
+    bool texturaCarregada;
+
 public:
-    explicit Vecna(const sf::Vector2f& posicao, Jogador* pJogador = nullptr); // Declara o construtor expl�cito que aceita a posi��o inicial do chefe no mundo do jogo.
+    explicit Vecna(const sf::Vector2f& posicao, Jogador* pJogador = nullptr);
+
+    void executar() override;
+    void desenhar() override;
+    bool consumirAtaque();
 };
+
 #endif

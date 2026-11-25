@@ -1,13 +1,17 @@
-#ifndef ESPINHOSTENTACULO_H
-#define ESPINHOSTENTACULO_H
+#pragma once
 #include "Obstaculo.h"
+#include <SFML/Graphics.hpp>
 
-class EspinhosTentaculo : public Obstaculo { // Declara a classe EspinhosTentaculo, herdando de Obstaculo
+class EspinhosTentaculo : public Obstaculo {
 private:
-    int danoEspinhos;
+    sf::Texture textura;
+    sf::Sprite sprite;
+    bool texturaCarregada;
 
 public:
-    explicit EspinhosTentaculo(const sf::Vector2f& posicao); // Declara o construtor que recebe a posi��o onde o obst�culo ser� colocado
-    void obstacular(Jogador* pJog) override; // Aplica dano ao jogador ao tocar nos espinhos
+    EspinhosTentaculo(const sf::Vector2f& posicao);
+    ~EspinhosTentaculo() override = default;
+
+    void obstacular(Jogador* pJog) override;
+    void desenhar() override;
 };
-#endif
