@@ -2,15 +2,16 @@
 #define PERSONAGEM_H
 #include "Entidade.h"
 
-class Personagem : public Entidade { // Declara a classe Personagem que herda de Entidade.
+class Personagem : public Entidade {
 protected:
     float velocidade;
     int vidas;
 public:
-    Personagem(const sf::Vector2f& posicao, const sf::Vector2f& tamanho, // Construtor para inicializar as propriedades comuns a todos os personagens.
+    Personagem(const sf::Vector2f& posicao, const sf::Vector2f& tamanho,
                const sf::Color& cor, float velocidade, int vidas);
-    int getVidas() const;               // Retorna o n�mero atual de vidas do personagem.
-    void perderVida();                  // Reduz a quantidade de vidas quando o personagem sofre dano.
-    void mover(float dx, float dy);     // Desloca o personagem no espa�o de acordo com as varia��es dx e dy.
+    int getVidas() const;
+    void setVidas(int v) { vidas = v; }
+    void perderVida();
+    void mover(float dx, float dy);
 };
 #endif

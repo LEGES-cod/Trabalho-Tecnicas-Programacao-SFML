@@ -2,6 +2,7 @@
 #define JOGO_H
 
 #include <SFML/Graphics.hpp>
+#include <string>
 #include "GerenciadorGrafico.h"
 #include "Menu.h"
 #include "FaseHawkins.h"
@@ -19,6 +20,7 @@ private:
 
     bool pausado;
     int opcaoPausa;
+    std::string mensagemPausa;
 
     bool vitoria;
     int opcaoVitoria;
@@ -32,12 +34,14 @@ private:
     sf::Text textoTituloTela;
     sf::Text textoSubtituloTela;
 
-    sf::RectangleShape botoesTela[3];
-    sf::Text textosBotoesTela[3];
+    sf::RectangleShape botoesTela[4];
+    sf::Text textosBotoesTela[4];
 
     void configurarBotao(int indice, const std::string& texto, float y);
     void desenharTelaOpcoes(const std::string& titulo, sf::Color corTitulo,
                             const std::string& subtitulo, int qtdBotoes, int opcaoAtual);
+    void salvarJogo();
+    bool carregarJogo();
 
 public:
     Jogo();

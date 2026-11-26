@@ -2,12 +2,12 @@
 #define FASEHAWKINS_H
 #include "Fase.h"
 
-class FaseHawkins : public Fase { // Declara a fase Hawkins que herda de Fase
+class FaseHawkins : public Fase {
 protected:
-    void criarDemodog();       // Cria o Demodog da fase Hawkins
-    void criarTroncosCaidos(); // Cria os troncos caídos da fase Hawkins
+    void criarDemodog();
+    void criarTroncosCaidos();
 
 public:
-    FaseHawkins(); // Construtor da fase Hawkins
+    FaseHawkins(bool carregando = false);
 };
 #endif

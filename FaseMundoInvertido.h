@@ -10,7 +10,7 @@ protected:
     void criarEspinhosTentaculo();
 
 public:
-    FaseMundoInvertido();
+    FaseMundoInvertido(bool carregando = false);
 };
 
 #endif

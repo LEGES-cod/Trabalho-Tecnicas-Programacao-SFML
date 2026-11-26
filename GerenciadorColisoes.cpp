@@ -131,6 +131,8 @@ void GerenciadorColisoes::tratarColisoesProjeteisObstacs() {
         if (!projetil->getAtivo()) continue;
 
         for (auto* obstaculo : LOs) {
+            if (!obstaculo || !obstaculo->podeColidir()) continue;
+
             if (verificarColisao(projetil, obstaculo)) {
                 projetil->desativar();
                 break;
@@ -142,6 +144,8 @@ void GerenciadorColisoes::tratarColisoesProjeteisObstacs() {
         if (!projetil->getAtivo()) continue;
 
         for (auto* obstaculo : LOs) {
+            if (!obstaculo || !obstaculo->podeColidir()) continue;
+
             if (dynamic_cast<PlataformaEstatica*>(obstaculo)) {
                 if (verificarColisao(projetil, obstaculo)) {
                     projetil->desativar();

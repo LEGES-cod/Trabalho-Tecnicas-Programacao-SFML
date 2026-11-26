@@ -1,5 +1,6 @@
 #include "TroncoCaido.h"
 #include <cmath>
+#include <cstdlib>
 
 TroncoCaido::TroncoCaido(const sf::Vector2f& posicao)
     : Obstaculo(
@@ -8,7 +9,9 @@ TroncoCaido::TroncoCaido(const sf::Vector2f& posicao)
         sf::Color(110, 65, 25),
         false
       ),
-      texturaCarregada(false) {
+      texturaCarregada(false),
+      invisivel(false),
+      tempoInvisivel(0.f) {
 
     if (textura.loadFromFile("tronco.png")) {
         textura.setSmooth(false);
@@ -24,8 +27,27 @@ TroncoCaido::TroncoCaido(const sf::Vector2f& posicao)
     }
 }
 
+void TroncoCaido::executar() {
+    float deltaTime = pGG ? pGG->getDeltaTime() : 0.016f;
+    Obstaculo::executar();
+
+    if (invisivel) {
+        tempoInvisivel -= deltaTime;
+        if (tempoInvisivel <= 0.f) {
+            invisivel = false;
+            tempoInvisivel = 0.f;
+        }
+    }
+    else {
+        if (std::rand() % 1000 == 0) {
+            invisivel = true;
+            tempoInvisivel = 3.0f;
+        }
+    }
+}
+
 void TroncoCaido::obstacular(Jogador* pJog) {
-    if (!pJog) return;
+    if (!pJog || invisivel) return;
 
     float deltaTime = pGG ? pGG->getDeltaTime() : 0.016f;
 
@@ -66,7 +88,7 @@ void TroncoCaido::obstacular(Jogador* pJog) {
 }
 
 void TroncoCaido::desenhar() {
-    if (!pGG) return;
+    if (!pGG || invisivel) return;
 
     if (texturaCarregada) {
         sf::FloatRect limites = getLimites();

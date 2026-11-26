@@ -6,8 +6,10 @@
 
 class Vecna : public Inimigo {
 private:
+    short int forca;
     float tempoAtaque;
     bool ataqueSolicitado;
+    bool indoDireita;
     sf::Texture textura;
     sf::Sprite sprite;
     bool texturaCarregada;
@@ -17,7 +19,9 @@ public:
 
     void executar() override;
     void desenhar() override;
+    void inverterDirecao() override { indoDireita = !indoDireita; }
     bool consumirAtaque();
+    int getDano() const override { return (dano * nivel_maldade) + forca; }
 };
 
 #endif

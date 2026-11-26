@@ -8,6 +8,7 @@ Menu::Menu()
       opcaoSelecionada(1),
       ativo(true),
       sairSolicitado(false),
+      carregarSolicitado(false),
       selecionandoModo(false),
       doisJogadores(false),
       selecionandoPersonagem(false),
@@ -29,17 +30,18 @@ Menu::Menu()
 
     fonteCarregada = fonte.loadFromFile("arial.ttf");
 
-    const char* rotulos[4] = {
+    const char* rotulos[5] = {
         "Hawkins",
         "Mundo Invertido",
+        "Carregar Jogo",
         "Ranking",
         "Sair"
     };
 
-    for (int i = 0; i < 4; i++) {
-        float y = 185.f + i * 70.f;
+    for (int i = 0; i < 5; i++) {
+        float y = 160.f + i * 66.f;
 
-        botoesPrincipais[i].setSize(sf::Vector2f(260.f, 50.f));
+        botoesPrincipais[i].setSize(sf::Vector2f(260.f, 48.f));
         botoesPrincipais[i].setPosition(270.f, y);
         botoesPrincipais[i].setFillColor(i == 0 ? sf::Color::Red : sf::Color(80, 80, 80));
 
@@ -53,7 +55,7 @@ Menu::Menu()
             sf::FloatRect limites = textosPrincipais[i].getLocalBounds();
             textosPrincipais[i].setPosition(
                 270.f + (260.f - limites.width) / 2.f - limites.left,
-                y + (50.f - limites.height) / 2.f - limites.top
+                y + (48.f - limites.height) / 2.f - limites.top
             );
         }
     }
@@ -227,7 +229,7 @@ void Menu::executar() {
                 opcaoSelecionada--;
                 atualizarDestaquePrincipal();
             }
-            else if (baixo && opcaoSelecionada < 4) {
+            else if (baixo && opcaoSelecionada < 5) {
                 opcaoSelecionada++;
                 atualizarDestaquePrincipal();
             }
@@ -237,10 +239,13 @@ void Menu::executar() {
                     atualizarDestaqueModo();
                 }
                 else if (opcaoSelecionada == 3) {
+                    carregarSolicitado = true;
+                }
+                else if (opcaoSelecionada == 4) {
                     carregarRanking();
                     vendoRanking = true;
                 }
-                else if (opcaoSelecionada == 4) {
+                else if (opcaoSelecionada == 5) {
                     sairSolicitado = true;
                 }
             }
@@ -303,7 +308,7 @@ void Menu::desenhar() {
         }
     }
     else if (!selecionandoModo && !selecionandoPersonagem) {
-        for (int i = 0; i < 4; i++) {
+        for (int i = 0; i < 5; i++) {
             pGG->desenharElemento(botoesPrincipais[i]);
             if (fonteCarregada) {
                 pGG->desenharElemento(textosPrincipais[i]);
@@ -346,7 +351,7 @@ void Menu::desenhar() {
 }
 
 void Menu::atualizarDestaquePrincipal() {
-    for (int i = 0; i < 4; i++) {
+    for (int i = 0; i < 5; i++) {
         botoesPrincipais[i].setFillColor(
             (i + 1) == opcaoSelecionada ? sf::Color::Red : sf::Color(80, 80, 80)
         );
@@ -418,6 +423,10 @@ bool Menu::querSair() const {
     return sairSolicitado;
 }
 
+bool Menu::querCarregar() const {
+    return carregarSolicitado;
+}
+
 bool Menu::isDoisJogadores() const {
     return doisJogadores;
 }
@@ -438,6 +447,7 @@ void Menu::reiniciar(int opcao) {
     opcaoSelecionada = opcao;
     ativo = true;
     sairSolicitado = false;
+    carregarSolicitado = false;
 
     selecionandoModo = false;
     selecionandoPersonagem = false;

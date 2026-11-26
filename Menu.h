@@ -7,16 +7,17 @@
 
 class Menu : public Ente {
 private:
-    int opcaoSelecionada; // 1 = Hawkins, 2 = Mundo Invertido, 3 = Ranking, 4 = Sair
+    int opcaoSelecionada;
     bool ativo;
     bool sairSolicitado;
+    bool carregarSolicitado;
 
     bool selecionandoModo;
     bool doisJogadores;
     bool selecionandoPersonagem;
     bool vendoRanking;
     bool teclaAnterior;
-    int personagemSelecionado; // 0 = Mike, 1 = Eleven
+    int personagemSelecionado;
 
     bool fundoCarregado;
     bool fonteCarregada;
@@ -25,10 +26,9 @@ private:
     sf::Sprite fundoMenu;
     sf::Font fonte;
 
-    sf::RectangleShape botoesPrincipais[4];
-    sf::Text textosPrincipais[4];
+    sf::RectangleShape botoesPrincipais[5];
+    sf::Text textosPrincipais[5];
 
-    // Selecao de 1 ou 2 jogadores
     sf::RectangleShape botoesModo[2];
     sf::Text textosModo[2];
     sf::Text tituloModo;
@@ -57,16 +57,18 @@ public:
 
     void executar() override;
     void desenhar() override;
+    void desativar() { ativo = false; carregarSolicitado = false; }
 
     bool estaAtivo() const;
     bool querSair() const;
+    bool querCarregar() const;
     bool isDoisJogadores() const;
     bool estaSelecionandoPersonagem() const;
 
     int getOpcaoSelecionada() const;
     int getPersonagemSelecionado() const;
 
-    void reiniciar(int opcao = 1);
+   void reiniciar(int opcao = 1);
     static void salvarPontuacao(int indicePersonagem, int pontos, bool coop = false);
 };
 

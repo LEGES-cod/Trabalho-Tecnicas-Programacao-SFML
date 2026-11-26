@@ -1,9 +1,10 @@
 #include "Inimigo.h"
 
 Inimigo::Inimigo(const sf::Vector2f& posicao, const sf::Color& cor,
-                 Jogador* pJogador)
+                 Jogador* pJogador, int nivelMaldade)
     : Personagem(posicao, sf::Vector2f(35.f, 35.f), cor, 0.f, 20),
-      dano(3),
+      dano(1),
+      nivel_maldade(nivelMaldade),
       pJog(pJogador),
       vivo(true),
       velocidadeY(0.f) {}

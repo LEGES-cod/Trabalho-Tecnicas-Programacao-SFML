@@ -6,6 +6,7 @@
 
 class Demogorgon : public Inimigo {
 private:
+    int tamanho;
     float tempoDisparo;
     bool disparoSolicitado;
 

@@ -6,26 +6,26 @@ Demogorgon::Demogorgon(
     const sf::Vector2f& posicao,
     Jogador* pJogador
 )
-    : Inimigo(posicao, sf::Color(120, 0, 0), pJogador),
+    : Inimigo(posicao, sf::Color(120, 0, 0), pJogador, 2),
+      tamanho(60),
       tempoDisparo(1.8f),
       disparoSolicitado(false),
       texturaCarregada(false) {
 
-    // Hitbox compacta ajustada ao corpo visivel do Demogorgon
     corpo.setSize(sf::Vector2f(34.f, 48.f));
-    vidas = 30;
+    vidas = 10;
     velocidade = 50.f;
-    dano = 10;
+    dano = 1;
 
     if (textura.loadFromFile("demogorgon.png")) {
         textura.setSmooth(false);
         sprite.setTexture(textura);
-        sf::Vector2u tamanho = textura.getSize();
+        sf::Vector2u tamTex = textura.getSize();
 
-        if (tamanho.x > 0 && tamanho.y > 0) {
+        if (tamTex.x > 0 && tamTex.y > 0) {
             float escala = std::min(
-                60.f / tamanho.x,
-                60.f / tamanho.y
+                static_cast<float>(tamanho) / tamTex.x,
+                static_cast<float>(tamanho) / tamTex.y
             );
             sprite.setScale(escala, escala);
             texturaCarregada = true;

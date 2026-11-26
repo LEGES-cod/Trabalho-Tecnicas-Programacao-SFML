@@ -4,16 +4,17 @@
 #include <cmath>
 
 Vecna::Vecna(const sf::Vector2f& posicao, Jogador* pJogador)
-    : Inimigo(posicao, sf::Color(90, 0, 110), pJogador),
+    : Inimigo(posicao, sf::Color(90, 0, 110), pJogador, 3),
+      forca(1),
       tempoAtaque(2.2f),
       ataqueSolicitado(false),
+      indoDireita(false),
       texturaCarregada(false) {
 
-    // Hitbox compacta ajustada ao corpo visivel do Vecna
     corpo.setSize(sf::Vector2f(36.f, 52.f));
-    vidas = 50;
-    velocidade = 75.f;
-    dano = 15;
+    vidas = 15;
+    velocidade = 85.f;
+    dano = 1;
 
     if (textura.loadFromFile("vecna.png")) {
         textura.setSmooth(false);
@@ -33,10 +34,32 @@ void Vecna::executar() {
     float deltaTime = pGG->getDeltaTime();
 
     if (pJog) {
-        float dx = pJog->getPosicao().x - getPosicao().x;
-        if (std::abs(dx) > 120.f) {
-            mover((dx > 0.f ? 1.f : -1.f) * velocidade * deltaTime, 0.f);
+        float posX = getPosicao().x;
+        float dx = pJog->getPosicao().x - posX;
+        float distancia = std::abs(dx);
+        float deslocamentoX = 0.f;
+
+        if (distancia > 200.f) {
+            deslocamentoX = (dx > 0.f ? 1.f : -1.f) * velocidade * deltaTime;
         }
+        else if (distancia < 110.f) {
+            deslocamentoX = (dx > 0.f ? -1.f : 1.f) * (velocidade * 0.85f) * deltaTime;
+        }
+        else {
+            deslocamentoX = (indoDireita ? 1.f : -1.f) * (velocidade * 0.5f) * deltaTime;
+        }
+
+        float proximoX = posX + deslocamentoX;
+        if (proximoX < 20.f) {
+            deslocamentoX = 20.f - posX;
+            indoDireita = true;
+        }
+        else if (proximoX > 740.f) {
+            deslocamentoX = 740.f - posX;
+            indoDireita = false;
+        }
+
+        mover(deslocamentoX, 0.f);
 
         tempoAtaque -= deltaTime;
         if (tempoAtaque <= 0.f) {

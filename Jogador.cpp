@@ -5,7 +5,7 @@
 Jogador::Jogador(int id)
     : Personagem(sf::Vector2f(id == 1 ? 80.f : 145.f, 499.f),
                  sf::Vector2f(40.f, 36.f),
-                 id == 1 ? sf::Color::Red : sf::Color::Blue, 250.f, 100),
+                 id == 1 ? sf::Color::Red : sf::Color::Blue, 250.f, 10),
       idJogador(id),
       velocidadeY(0.f),
       noChao(true),

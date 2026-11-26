@@ -12,5 +12,6 @@ public:
               const sf::Color& cor, bool ehDanoso = false);
     void executar() override; // Declara a sobreposi��o do m�todo de execu��o l�gica.
     virtual void obstacular(Jogador* pJog) = 0; // M�todo virtual puro para tratar a intera��o com o jogador
+    virtual bool podeColidir() const { return true; }
 };
 #endif

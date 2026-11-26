@@ -5,25 +5,22 @@
 #include "PlataformaEstatica.h"
 #include <cstdlib>
 
-FaseMundoInvertido::FaseMundoInvertido() : Fase("mundo_invertido.png", sf::Color(65, 20, 25)) {
+FaseMundoInvertido::FaseMundoInvertido(bool carregando) : Fase("mundo_invertido.png", sf::Color(65, 20, 25)) {
     exigirDerrotaInimigos = true;
 
     inicializar();
 
-    // 1. Plataformas formando 4 andares exploráveis (6 a 8 instâncias aleatórias)
-    int qtdPlataformas = 6 + (std::rand() % 3); // 6, 7 ou 8 plataformas
+    if (carregando) return;
+
+    int qtdPlataformas = 6 + (std::rand() % 3);
     sf::Vector2f posPlat[8] = {
-        // Andar 1 (Y = 445)
         sf::Vector2f(95.f,  445.f),
         sf::Vector2f(430.f, 445.f),
-        // Andar 2 (Y = 355)
         sf::Vector2f(25.f,  355.f),
         sf::Vector2f(255.f, 355.f),
         sf::Vector2f(620.f, 355.f),
-        // Andar 3 (Y = 265)
         sf::Vector2f(135.f, 265.f),
         sf::Vector2f(455.f, 265.f),
-        // Andar 4 (Y = 165)
         sf::Vector2f(275.f, 165.f)
     };
     sf::Vector2f tamPlat[8] = {
@@ -41,32 +38,30 @@ FaseMundoInvertido::FaseMundoInvertido() : Fase("mundo_invertido.png", sf::Color
         adicionarObstaculo(new PlataformaEstatica(posPlat[i], tamPlat[i]));
     }
 
-    // 2. Espinhos-tentáculo no chão e em cima das plataformas (3 a 5 instâncias)
     criarEspinhosTentaculo();
-
-    // 3. Demodogs patrulhando o chão e plataformas largas (3 a 4 instâncias)
-    int qtdDemodogs = 3 + (std::rand() % 2);
-    sf::Vector2f posDog[4] = {
-        sf::Vector2f(340.f, 480.f), // Chão (centro)
-        sf::Vector2f(620.f, 480.f), // Chão (direita)
-        sf::Vector2f(470.f, 390.f), // Em cima da plataforma larga do Andar 1
-        sf::Vector2f(310.f, 300.f)  // Em cima da plataforma central do Andar 2
-    };
-    for (int i = 0; i < qtdDemodogs; i++) {
-        adicionarInimigo(new Demodog(posDog[i], pJog1));
-    }
-
-    // 4. Vecnas guardando os andares superiores (3 a 4 instâncias)
+    criarDemodog();
     criarVecna();
 }
 
-void FaseMundoInvertido::criarVecna() {
+void FaseMundoInvertido::criarDemodog() {
     int qtd = 3 + (std::rand() % 2);
-    sf::Vector2f posVecna[4] = {
-        sf::Vector2f(55.f,  285.f), // Andar 2 (esquerda)
-        sf::Vector2f(700.f, 285.f), // Andar 2 (direita)
-        sf::Vector2f(575.f, 195.f), // Andar 3 (direita)
-        sf::Vector2f(340.f, 95.f)   // Andar 4 (topo central)
+    sf::Vector2f posDog[4] = {
+        sf::Vector2f(350.f, 480.f),
+        sf::Vector2f(660.f, 480.f),
+        sf::Vector2f(445.f, 390.f),
+        sf::Vector2f(265.f, 300.f)
+    };
+    for (int i = 0; i < qtd; i++) {
+        adicionarInimigo(new Demodog(posDog[i], pJog1));
+    }
+}
+
+void FaseMundoInvertido::criarVecna() {
+    int qtd = 3;
+    sf::Vector2f posVecna[3] = {
+        sf::Vector2f(65.f,  285.f),
+        sf::Vector2f(675.f, 285.f),
+        sf::Vector2f(215.f, 195.f)
     };
     for (int i = 0; i < qtd; i++) {
         adicionarInimigo(new Vecna(posVecna[i], pJog1));
@@ -74,13 +69,13 @@ void FaseMundoInvertido::criarVecna() {
 }
 
 void FaseMundoInvertido::criarEspinhosTentaculo() {
-    int qtd = 3 + (std::rand() % 3); // 3, 4 ou 5 espinhos
+    int qtd = 3 + (std::rand() % 3);
     sf::Vector2f posEspinhos[5] = {
-        sf::Vector2f(210.f, 517.f), // Chão (esquerda)
-        sf::Vector2f(540.f, 517.f), // Chão (direita)
-        sf::Vector2f(555.f, 427.f), // Em cima da plataforma do Andar 1 (445 - 18)
-        sf::Vector2f(315.f, 337.f), // Mais à direita na plataforma central do Andar 2
-        sf::Vector2f(505.f, 247.f)  // Mais à direita na plataforma do Andar 3, abrindo o vão
+        sf::Vector2f(210.f, 513.f),
+        sf::Vector2f(520.f, 513.f),
+        sf::Vector2f(555.f, 423.f),
+        sf::Vector2f(365.f, 333.f),
+        sf::Vector2f(145.f, 243.f)
     };
     for (int i = 0; i < qtd; i++) {
         adicionarObstaculo(new EspinhosTentaculo(posEspinhos[i]));

@@ -3,15 +3,16 @@
 #include <cmath>
 
 Demodog::Demodog(const sf::Vector2f& posicao, Jogador* pJogador)
-    : Inimigo(posicao, sf::Color(80, 40, 20), pJogador),
+    : Inimigo(posicao, sf::Color(80, 40, 20), pJogador, 1),
       limiteEsquerdo(posicao.x - 100.f),
       limiteDireito(posicao.x + 100.f),
       indoDireita(true),
       raioVisao(180.f),
       velocidadeAtaque(200.f) {
 
-    // Hitbox compacta ajustada ao corpo visivel do Demodog
     corpo.setSize(sf::Vector2f(40.f, 35.f));
+    vidas = 5;
+    dano = 1;
 
     if (textura.loadFromFile("demodog.png")) {
         textura.setSmooth(false);

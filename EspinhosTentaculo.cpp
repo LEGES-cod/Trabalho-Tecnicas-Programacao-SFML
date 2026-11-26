@@ -1,5 +1,6 @@
 #include "EspinhosTentaculo.h"
 #include <algorithm>
+#include <cmath>
 
 EspinhosTentaculo::EspinhosTentaculo(const sf::Vector2f& posicao)
     : Obstaculo(
@@ -8,7 +9,9 @@ EspinhosTentaculo::EspinhosTentaculo(const sf::Vector2f& posicao)
         sf::Color(150, 20, 40),
         true
       ),
-      texturaCarregada(false) {
+      texturaCarregada(false),
+      danosidade(2),
+      tempoPulso(0.f) {
 
     if (textura.loadFromFile("espinhos.png")) {
         textura.setSmooth(false);
@@ -24,11 +27,26 @@ EspinhosTentaculo::EspinhosTentaculo(const sf::Vector2f& posicao)
     }
 }
 
+void EspinhosTentaculo::executar() {
+    float deltaTime = pGG ? pGG->getDeltaTime() : 0.016f;
+    Obstaculo::executar();
+
+    tempoPulso += deltaTime * 4.f;
+    sf::Uint8 brilho = static_cast<sf::Uint8>(215 + 40 * std::sin(tempoPulso));
+
+    if (texturaCarregada) {
+        sprite.setColor(sf::Color(255, brilho, brilho));
+    }
+    else {
+        corpo.setFillColor(sf::Color(brilho, 20, 40));
+    }
+}
+
 void EspinhosTentaculo::obstacular(Jogador* pJog) {
     if (!pJog) return;
 
     if (pJog->getLimites().intersects(getLimites())) {
-        pJog->receberDano(10);
+        pJog->receberDano(danosidade);
         pJog->iniciarDanoContinuo();
     }
 }

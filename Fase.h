@@ -3,6 +3,8 @@
 
 #include <string>
 #include <vector>
+#include <ostream>
+#include <istream>
 #include <SFML/Graphics.hpp>
 #include "Ente.h"
 #include "ListaEntidades.h"
@@ -23,6 +25,7 @@ protected:
 
     std::vector<Inimigo*> inimigos;
     std::vector<bool> inimigoPontuado;
+    std::vector<Obstaculo*> obstaculos;
     bool exigirDerrotaInimigos;
 
     sf::Color corChao;
@@ -53,6 +56,9 @@ public:
 
     int getPontosJogador() const;
     void setPontosJogador(int pontos);
+
+    void salvar(std::ostream& out) const;
+    void carregar(std::istream& in, int p1, bool coop);
 };
 
 #endif

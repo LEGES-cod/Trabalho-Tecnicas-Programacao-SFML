@@ -1,6 +1,8 @@
 #include "Fase.h"
 #include "BolaDeFogo.h"
 #include "PlataformaEstatica.h"
+#include "TroncoCaido.h"
+#include "EspinhosTentaculo.h"
 #include "Demogorgon.h"
 #include "Demodog.h"
 #include "Vecna.h"
@@ -108,6 +110,7 @@ void Fase::adicionarChao(Chao* chao) {
 
 void Fase::adicionarObstaculo(Obstaculo* obstaculo) {
     if (obstaculo) {
+        obstaculos.push_back(obstaculo);
         LEnts.incluir(obstaculo);
         gColisoes.incluirObstaculo(obstaculo);
     }
@@ -128,7 +131,7 @@ void Fase::executar() {
 
         Demogorgon* demogorgon = dynamic_cast<Demogorgon*>(inimigo);
 
-       if (demogorgon && demogorgon->consumirDisparo()) {
+        if (demogorgon && demogorgon->consumirDisparo()) {
             sf::Vector2f origem = demogorgon->getPosicao();
             sf::Vector2f destino = alvo->getPosicao();
 
@@ -147,7 +150,7 @@ void Fase::executar() {
                 float vy = (dy / distancia) * velocidadeProjetil;
 
                 BolaDeFogo* projetilInimigo = new BolaDeFogo(
-                    origem, vx, 3, sf::Color(180, 0, 180), vy
+                    origem, vx, demogorgon->getDano(), sf::Color(180, 0, 180), vy
                 );
 
                 LEnts.incluir(projetilInimigo);
@@ -157,14 +160,14 @@ void Fase::executar() {
 
         Vecna* vecna = dynamic_cast<Vecna*>(inimigo);
 
-       if (vecna && vecna->consumirAtaque()) {
+        if (vecna && vecna->consumirAtaque()) {
             sf::Vector2f origem = vecna->getPosicao();
             float dir = (alvo->getPosicao().x >= origem.x) ? 1.f : -1.f;
 
             BolaDeFogo* projVecna = new BolaDeFogo(
                 sf::Vector2f(origem.x + 18.f, origem.y + 26.f),
                 320.f * dir,
-                8,
+                vecna->getDano(),
                 sf::Color::Red,
                 0.f
             );
@@ -174,7 +177,6 @@ void Fase::executar() {
         }
     }
 
-    // Disparo do Jogador 1
     if (pJog1 && pJog1->estaVivo() && pJog1->consumirDisparo()) {
         sf::Vector2f posicao = pJog1->getPosicao();
         float direcao = pJog1->getDirecao();
@@ -193,7 +195,6 @@ void Fase::executar() {
         gColisoes.incluirProjetilJogador(bolaFogo);
     }
 
-    // Disparo do Jogador 2
     if (pJog2 && pJog2->estaVivo() && pJog2->consumirDisparo()) {
         sf::Vector2f posicao = pJog2->getPosicao();
         float direcao = pJog2->getDirecao();
@@ -312,5 +313,126 @@ int Fase::getPontosJogador() const {
 void Fase::setPontosJogador(int pontos) {
     if (pJog1 && pontos > 0) {
         pJog1->adicionarPontos(pontos);
+    }
+}
+
+void Fase::salvar(std::ostream& out) const {
+    if (pJog1) {
+        out << pJog1->getPosicao().x << " " << pJog1->getPosicao().y << " "
+            << pJog1->getVidas() << " " << pJog1->getPontos() << "\n";
+    }
+    else {
+        out << "50 400 0 0\n";
+    }
+
+    if (doisJogadores && pJog2) {
+        out << "1 " << pJog2->getPosicao().x << " " << pJog2->getPosicao().y << " "
+            << pJog2->getVidas() << "\n";
+    }
+    else {
+        out << "0 0 0 0\n";
+    }
+
+    out << obstaculos.size() << "\n";
+    for (Obstaculo* obs : obstaculos) {
+        if (!obs) continue;
+
+        if (PlataformaEstatica* plat = dynamic_cast<PlataformaEstatica*>(obs)) {
+            out << "PLAT " << plat->getPosicao().x << " " << plat->getPosicao().y << " "
+                << plat->getLargura() << " " << plat->getAltura() << "\n";
+        }
+        else if (dynamic_cast<TroncoCaido*>(obs)) {
+            out << "TRONCO " << obs->getPosicao().x << " " << obs->getPosicao().y << " 0 0\n";
+        }
+        else if (dynamic_cast<EspinhosTentaculo*>(obs)) {
+            out << "ESPINHO " << obs->getPosicao().x << " " << obs->getPosicao().y << " 0 0\n";
+        }
+    }
+
+    int vivos = 0;
+    for (Inimigo* ini : inimigos) {
+        if (ini && ini->estaVivo()) vivos++;
+    }
+
+    out << vivos << "\n";
+    for (Inimigo* ini : inimigos) {
+        if (!ini || !ini->estaVivo()) continue;
+
+        std::string tipo = "DEMODOG";
+        if (dynamic_cast<Vecna*>(ini)) tipo = "VECNA";
+        else if (dynamic_cast<Demogorgon*>(ini)) tipo = "DEMOGORGON";
+
+        out << tipo << " " << ini->getPosicao().x << " " << ini->getPosicao().y << " "
+            << ini->getVidas() << "\n";
+    }
+}
+
+void Fase::carregar(std::istream& in, int p1, bool coop) {
+    float x1 = 50.f, y1 = 400.f;
+    int vidas1 = 10, pontos1 = 0;
+    if (in >> x1 >> y1 >> vidas1 >> pontos1) {
+        setPersonagem(p1);
+        if (pJog1) {
+            pJog1->setPosicao(sf::Vector2f(x1, y1));
+            pJog1->setVidas(vidas1);
+            pJog1->adicionarPontos(pontos1);
+        }
+    }
+
+    int temJ2 = 0, vidas2 = 10;
+    float x2 = 80.f, y2 = 400.f;
+    if (in >> temJ2 >> x2 >> y2 >> vidas2) {
+        if (coop || temJ2 == 1) {
+            ativarSegundoJogador(1 - p1);
+            if (pJog2) {
+                pJog2->setPosicao(sf::Vector2f(x2, y2));
+                pJog2->setVidas(vidas2);
+            }
+        }
+    }
+
+    int qtdObs = 0;
+    if (in >> qtdObs) {
+        for (int i = 0; i < qtdObs; i++) {
+            std::string tipo;
+            float ox = 0.f, oy = 0.f, w = 0.f, h = 0.f;
+            if (!(in >> tipo >> ox >> oy >> w >> h)) break;
+
+            if (tipo == "PLAT") {
+                adicionarObstaculo(new PlataformaEstatica(sf::Vector2f(ox, oy), sf::Vector2f(w, h)));
+            }
+            else if (tipo == "TRONCO") {
+                adicionarObstaculo(new TroncoCaido(sf::Vector2f(ox, oy)));
+            }
+            else if (tipo == "ESPINHO") {
+                adicionarObstaculo(new EspinhosTentaculo(sf::Vector2f(ox, oy)));
+            }
+        }
+    }
+
+    int qtdIni = 0;
+    if (in >> qtdIni) {
+        for (int i = 0; i < qtdIni; i++) {
+            std::string tipo;
+            float ix = 0.f, iy = 0.f;
+            int vidasIni = 5;
+            if (!(in >> tipo >> ix >> iy >> vidasIni)) break;
+
+            Inimigo* novoIni = nullptr;
+            if (tipo == "VECNA") {
+                novoIni = new Vecna(sf::Vector2f(ix, iy), pJog1);
+            }
+            else if (tipo == "DEMOGORGON") {
+                novoIni = new Demogorgon(sf::Vector2f(ix, iy), pJog1);
+            }
+            else {
+                novoIni = new Demodog(sf::Vector2f(ix, iy), pJog1);
+            }
+
+            if (novoIni) {
+                novoIni->setVidas(vidasIni);
+                adicionarInimigo(novoIni);
+            }
+        }
     }
 }
