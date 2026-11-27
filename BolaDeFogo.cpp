@@ -5,13 +5,16 @@ BolaDeFogo::BolaDeFogo(const sf::Vector2f& posicao, float velX,
     : Entidade(posicao, sf::Vector2f(16.f, 16.f), cor),
       velocidade(velX, velY),
       dano(danoProjetil),
-      ativo(true) {}
+      ativo(true) {
+    velocidadeY = velY;
+}
 
 void BolaDeFogo::executar() {
     if (!ativo) return;
 
     float deltaTime = pGG ? pGG->getDeltaTime() : 0.016f;
-    corpo.move(velocidade.x * deltaTime, velocidade.y * deltaTime);
+    corpo.move(velocidade.x * deltaTime, 0.f);
+    aplicarGravidade(deltaTime, 0.06f);
 
     sf::Vector2f p = getPosicao();
 

@@ -15,6 +15,10 @@ private:
     Fase* faseAtual;
     bool segundaFase;
 
+    bool digitandoNome;
+    bool venceuPartida;
+    std::string nomeDigitado;
+
     bool gameOver;
     int opcaoGameOver;
 
@@ -33,6 +37,9 @@ private:
 
     sf::Text textoTituloTela;
     sf::Text textoSubtituloTela;
+
+    sf::RectangleShape caixaNome;
+    sf::Text textoCaixaNome;
 
     sf::RectangleShape botoesTela[4];
     sf::Text textosBotoesTela[4];

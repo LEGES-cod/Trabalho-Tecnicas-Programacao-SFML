@@ -4,3 +4,7 @@ Mike 1900
 mike 200
 Mike 100
 Mike 1100
+Mike 100
+Mike 500
+Mike 1400
+kauan 2400

@@ -5,6 +5,8 @@ Jogo::Jogo()
     : pGG(GerenciadorGrafico::getInstancia()),
       faseAtual(nullptr),
       segundaFase(false),
+      digitandoNome(false),
+      venceuPartida(false),
       gameOver(false),
       opcaoGameOver(1),
       pausado(false),
@@ -27,6 +29,16 @@ Jogo::Jogo()
     textoSubtituloTela.setFont(fonteUI);
     textoSubtituloTela.setCharacterSize(22);
     textoSubtituloTela.setFillColor(sf::Color::White);
+
+    caixaNome.setSize(sf::Vector2f(340.f, 52.f));
+    caixaNome.setPosition(230.f, 275.f);
+    caixaNome.setFillColor(sf::Color(35, 35, 35));
+    caixaNome.setOutlineThickness(2.f);
+    caixaNome.setOutlineColor(sf::Color::Red);
+
+    textoCaixaNome.setFont(fonteUI);
+    textoCaixaNome.setCharacterSize(24);
+    textoCaixaNome.setFillColor(sf::Color::White);
 
     for (int i = 0; i < 4; i++) {
         botoesTela[i].setSize(sf::Vector2f(300.f, 50.f));
@@ -137,6 +149,18 @@ void Jogo::executar() {
             if (evento.type == sf::Event::Closed) {
                 pGG->fechar();
             }
+            else if (digitandoNome && evento.type == sf::Event::TextEntered) {
+                sf::Uint32 codigo = evento.text.unicode;
+                if (codigo == 8) {
+                    if (!nomeDigitado.empty()) {
+                        nomeDigitado.pop_back();
+                    }
+                }
+                else if (codigo >= 32 && codigo < 127 && nomeDigitado.size() < 12) {
+                    char c = static_cast<char>(codigo);
+                    nomeDigitado.push_back(c == ' ' ? '_' : c);
+                }
+            }
         }
 
         pGG->atualizarDeltaTime();
@@ -150,7 +174,47 @@ void Jogo::executar() {
         bool esc = sf::Keyboard::isKeyPressed(sf::Keyboard::Escape);
         bool algumaTecla = cima || baixo || enter || esc;
 
-        if (gameOver) {
+        if (digitandoNome) {
+            if (enter && !teclaMenuAnterior) {
+                Menu::salvarPontuacao(nomeDigitado, pontuacaoFinal);
+                digitandoNome = false;
+
+                if (venceuPartida) {
+                    vitoria = true;
+                    opcaoVitoria = 1;
+                }
+                else {
+                    gameOver = true;
+                    opcaoGameOver = 1;
+                }
+            }
+
+            desenharTelaOpcoes(
+                venceuPartida ? "VITORIA!" : "GAME OVER",
+                venceuPartida ? sf::Color(50, 220, 100) : sf::Color::Red,
+                "Pontuacao: " + std::to_string(pontuacaoFinal) + " - Digite seu nome:",
+                0,
+                0
+            );
+
+            pGG->desenharElemento(caixaNome);
+            textoCaixaNome.setString(nomeDigitado + "_");
+            sf::FloatRect limNome = textoCaixaNome.getLocalBounds();
+            textoCaixaNome.setPosition(
+                400.f - (limNome.width / 2.f + limNome.left),
+                301.f - (limNome.height / 2.f + limNome.top)
+            );
+            pGG->desenharElemento(textoCaixaNome);
+
+            textoSubtituloTela.setString("Pressione ENTER para salvar no ranking");
+            sf::FloatRect limEnter = textoSubtituloTela.getLocalBounds();
+            textoSubtituloTela.setPosition(
+                400.f - (limEnter.width / 2.f + limEnter.left),
+                365.f
+            );
+            pGG->desenharElemento(textoSubtituloTela);
+        }
+        else if (gameOver) {
             if (algumaTecla && !teclaMenuAnterior) {
                 if (cima && opcaoGameOver > 1) opcaoGameOver--;
                 else if (baixo && opcaoGameOver < 3) opcaoGameOver++;
@@ -298,17 +362,19 @@ void Jogo::executar() {
 
                 if (faseAtual->jogadorMorreu()) {
                     pontuacaoFinal = faseAtual->getPontosJogador();
-                    Menu::salvarPontuacao(
-                        menu.getPersonagemSelecionado(),
-                        pontuacaoFinal,
-                        menu.isDoisJogadores()
-                    );
 
                     delete faseAtual;
                     faseAtual = nullptr;
 
-                    gameOver = true;
-                    opcaoGameOver = 1;
+                    if (pontuacaoFinal > 0) {
+                        digitandoNome = true;
+                        venceuPartida = false;
+                        nomeDigitado.clear();
+                    }
+                    else {
+                        gameOver = true;
+                        opcaoGameOver = 1;
+                    }
                 }
                 else if (faseAtual->terminou() && !segundaFase) {
                     int pontosAcumulados = faseAtual->getPontosJogador();
@@ -325,17 +391,19 @@ void Jogo::executar() {
                 }
                 else if (faseAtual->terminou() && segundaFase) {
                     pontuacaoFinal = faseAtual->getPontosJogador();
-                    Menu::salvarPontuacao(
-                        menu.getPersonagemSelecionado(),
-                        pontuacaoFinal,
-                        menu.isDoisJogadores()
-                    );
 
                     delete faseAtual;
                     faseAtual = nullptr;
 
-                    vitoria = true;
-                    opcaoVitoria = 1;
+                    if (pontuacaoFinal > 0) {
+                        digitandoNome = true;
+                        venceuPartida = true;
+                        nomeDigitado.clear();
+                    }
+                    else {
+                        vitoria = true;
+                        opcaoVitoria = 1;
+                    }
                 }
             }
         }

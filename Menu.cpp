@@ -16,7 +16,8 @@ Menu::Menu()
       teclaAnterior(false),
       personagemSelecionado(0),
       fundoCarregado(false),
-      fonteCarregada(false) {
+      fonteCarregada(false),
+      offsetRanking(0) {
 
     fundoCarregado = texturaFundo.loadFromFile("fundostrangerthings.png");
 
@@ -120,26 +121,26 @@ Menu::Menu()
         textoVoltar.setFillColor(sf::Color(200, 200, 200));
         textoVoltar.setPosition(295.f, 530.f);
 
-        painelRanking.setSize(sf::Vector2f(460.f, 340.f));
-        painelRanking.setPosition(170.f, 130.f);
+        painelRanking.setSize(sf::Vector2f(480.f, 370.f));
+        painelRanking.setPosition(160.f, 115.f);
         painelRanking.setFillColor(sf::Color(20, 20, 20, 230));
         painelRanking.setOutlineThickness(2.f);
         painelRanking.setOutlineColor(sf::Color::Red);
 
         tituloRanking.setFont(fonte);
-        tituloRanking.setString("TOP 5 - RANKING");
+        tituloRanking.setString("RANKING");
         tituloRanking.setCharacterSize(28);
         tituloRanking.setFillColor(sf::Color::Red);
         sf::FloatRect limRank = tituloRanking.getLocalBounds();
         tituloRanking.setPosition(
             (800.f - limRank.width) / 2.f - limRank.left,
-            150.f
+            130.f
         );
 
         textoLinhasRanking.setFont(fonte);
-        textoLinhasRanking.setCharacterSize(22);
+        textoLinhasRanking.setCharacterSize(20);
         textoLinhasRanking.setFillColor(sf::Color::White);
-        textoLinhasRanking.setPosition(210.f, 215.f);
+        textoLinhasRanking.setPosition(200.f, 185.f);
     }
 
     const char* nomes[2] = { "Mike", "Eleven" };
@@ -222,6 +223,14 @@ void Menu::executar() {
         if (vendoRanking) {
             if (esc || enter) {
                 vendoRanking = false;
+            }
+            else if (cima && offsetRanking > 0) {
+                offsetRanking--;
+                atualizarTextoRanking();
+            }
+            else if (baixo && offsetRanking + 6 < registrosRanking.size()) {
+                offsetRanking++;
+                atualizarTextoRanking();
             }
         }
         else if (!selecionandoModo && !selecionandoPersonagem) {
@@ -378,39 +387,54 @@ void Menu::atualizarDestaquePersonagem() {
 
 void Menu::carregarRanking() {
     std::ifstream arquivo("ranking.txt");
-    std::vector<std::pair<int, std::string>> registros;
+    registrosRanking.clear();
+    offsetRanking = 0;
 
     std::string nome;
     int pontos;
     while (arquivo >> nome >> pontos) {
-        registros.push_back({ pontos, nome });
+        registrosRanking.push_back({ pontos, nome });
     }
     arquivo.close();
 
-    std::sort(registros.rbegin(), registros.rend());
+    std::sort(registrosRanking.rbegin(), registrosRanking.rend());
+    atualizarTextoRanking();
+}
 
+void Menu::atualizarTextoRanking() {
     std::ostringstream ss;
-    if (registros.empty()) {
+    if (registrosRanking.empty()) {
         ss << "Nenhuma pontuacao registrada ainda.";
     }
     else {
-        int limite = std::min(5, static_cast<int>(registros.size()));
-        for (int i = 0; i < limite; i++) {
-            ss << (i + 1) << ". " << registros[i].second
-               << "  -  " << registros[i].first << " pts\n\n";
+        const size_t porPagina = 6;
+        size_t fim = std::min(offsetRanking + porPagina, registrosRanking.size());
+
+        for (size_t i = offsetRanking; i < fim; i++) {
+            ss << (i + 1) << ". " << registrosRanking[i].second
+               << "  -  " << registrosRanking[i].first << " pts\n\n";
+        }
+
+        if (registrosRanking.size() > porPagina) {
+            ss << "Use CIMA/BAIXO (" << (offsetRanking + 1) << "-"
+               << fim << " de " << registrosRanking.size() << ")";
         }
     }
 
     textoLinhasRanking.setString(ss.str());
 }
 
-void Menu::salvarPontuacao(int indicePersonagem, int pontos, bool coop) {
+void Menu::salvarPontuacao(const std::string& nomeJogador, int pontos) {
     if (pontos <= 0) return;
+
+    std::string nomeLimpo = nomeJogador.empty() ? "Jogador" : nomeJogador;
+    for (char& c : nomeLimpo) {
+        if (c == ' ') c = '_';
+    }
 
     std::ofstream arquivo("ranking.txt", std::ios::app);
     if (arquivo.is_open()) {
-        std::string nome = coop ? "Dupla(2P)" : ((indicePersonagem == 1) ? "Eleven" : "Mike");
-        arquivo << nome << " " << pontos << "\n";
+        arquivo << nomeLimpo << " " << pontos << "\n";
         arquivo.close();
     }
 }

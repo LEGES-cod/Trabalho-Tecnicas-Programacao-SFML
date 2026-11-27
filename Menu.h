@@ -3,6 +3,7 @@
 
 #include "Ente.h"
 #include <string>
+#include <utility>
 #include <vector>
 
 class Menu : public Ente {
@@ -46,18 +47,20 @@ private:
     sf::RectangleShape painelRanking;
     sf::Text tituloRanking;
     sf::Text textoLinhasRanking;
+    std::vector<std::pair<int, std::string>> registrosRanking;
+    size_t offsetRanking;
 
     void atualizarDestaquePrincipal();
     void atualizarDestaqueModo();
     void atualizarDestaquePersonagem();
     void carregarRanking();
+    void atualizarTextoRanking();
 
 public:
     Menu();
 
     void executar() override;
     void desenhar() override;
-    void desativar() { ativo = false; carregarSolicitado = false; }
 
     bool estaAtivo() const;
     bool querSair() const;
@@ -68,8 +71,9 @@ public:
     int getOpcaoSelecionada() const;
     int getPersonagemSelecionado() const;
 
-   void reiniciar(int opcao = 1);
-    static void salvarPontuacao(int indicePersonagem, int pontos, bool coop = false);
+    void reiniciar(int opcao = 1);
+    void desativar() { ativo = false; carregarSolicitado = false; }
+    static void salvarPontuacao(const std::string& nomeJogador, int pontos);
 };
 
 #endif

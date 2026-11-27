@@ -1,17 +1,19 @@
 #ifndef OBSTACULO_H
 #define OBSTACULO_H
+
 #include "Entidade.h"
 #include "Jogador.h"
 
-class Obstaculo : public Entidade { // Declara a classe Obstaculo que herda de Entidade.
+class Obstaculo : public Entidade {
 protected:
-    bool danoso; // Indica se o obst�culo causa dano ao jogador
+    bool danoso;
 
 public:
-    Obstaculo(const sf::Vector2f& posicao, const sf::Vector2f& tamanho, // Declara o construtor da classe recebendo posi��o, tamanho e cor.
+    Obstaculo(const sf::Vector2f& posicao, const sf::Vector2f& tamanho,
               const sf::Color& cor, bool ehDanoso = false);
-    void executar() override; // Declara a sobreposi��o do m�todo de execu��o l�gica.
-    virtual void obstacular(Jogador* pJog) = 0; // M�todo virtual puro para tratar a intera��o com o jogador
+    void executar() override;
+    virtual void obstacular(Jogador* pJog) = 0;
     virtual bool podeColidir() const { return true; }
 };
+
 #endif

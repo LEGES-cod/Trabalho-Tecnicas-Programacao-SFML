@@ -186,9 +186,10 @@ void Fase::executar() {
                 direcao > 0 ? posicao.x + 40.f : posicao.x - 16.f,
                 posicao.y + 12.f
             ),
-            500.f * direcao,
+            550.f * direcao,
             1,
-            sf::Color(255, 100, 0)
+            sf::Color(255, 100, 0),
+            -25.f
         );
 
         LEnts.incluir(bolaFogo);
@@ -204,9 +205,10 @@ void Fase::executar() {
                 direcao > 0 ? posicao.x + 40.f : posicao.x - 16.f,
                 posicao.y + 12.f
             ),
-            500.f * direcao,
+            550.f * direcao,
             1,
-            sf::Color(0, 180, 255)
+            sf::Color(0, 180, 255),
+            -25.f
         );
 
         LEnts.incluir(bolaFogo2);
